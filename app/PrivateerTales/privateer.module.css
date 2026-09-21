@@ -227,7 +227,7 @@
   position: relative;
   display: grid;
   min-height: min(48rem, 94vh);
-  grid-template-columns: minmax(19rem, 0.9fr) minmax(24rem, 1.1fr);
+  grid-template-columns: minmax(25rem, 1.1fr) minmax(20rem, 0.9fr);
   align-items: center;
   gap: clamp(1.5rem, 3vw, 3rem);
   overflow: hidden;
@@ -275,20 +275,20 @@
 .heroCopy {
   position: relative;
   z-index: 2;
-  max-width: 35rem;
+  max-width: 44rem;
 }
 
 .hero h1 {
-  max-width: 31rem;
+  max-width: 42rem;
   color: var(--privateer-signal-bright);
-  font-size: clamp(3.2rem, 5.7vw, 6rem);
+  font-size: clamp(3.2rem, 5.2vw, 6rem);
   letter-spacing: -0.045em;
   line-height: 0.95;
   text-shadow: 0 5px 30px rgba(0, 0, 0, 0.55);
 }
 
 .heroDescription {
-  max-width: 31rem;
+  max-width: 37rem;
   margin: 1.4rem 0 0;
   color: #e4eaf0;
   font-family: Georgia, 'Times New Roman', serif;
