@@ -10,7 +10,7 @@ const MAX_REQUEST_BYTES = 2_048;
 function jsonResponse(
   body: Record<string, unknown>,
   status: number,
-  additionalHeaders: HeadersInit = {},
+  additionalHeaders: Record<string, string> = {},
 ) {
   return Response.json(body, {
     status,

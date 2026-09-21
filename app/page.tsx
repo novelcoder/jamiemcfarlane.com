@@ -6,6 +6,7 @@ import {
   Rocket,
   Users,
 } from 'lucide-react';
+import Image from 'next/image';
 
 const series = [
   {
@@ -121,7 +122,12 @@ export default function Home() {
                 key={item.name}
                 aria-label={`Explore ${item.name} at ${item.domain}`}
               >
-                <img src={item.cover} alt={item.alt} />
+                <Image
+                  src={item.cover}
+                  alt={item.alt}
+                  fill
+                  sizes="(max-width: 768px) 35vw, 14vw"
+                />
               </a>
             ))}
           </div>
@@ -144,7 +150,12 @@ export default function Home() {
                 aria-label={`Visit ${item.name} at ${item.domain}`}
               >
                 <span className="world-art">
-                  <img src={item.cardImage} alt="" />
+                  <Image
+                    src={item.cardImage}
+                    alt=""
+                    fill
+                    sizes="(max-width: 680px) 100vw, (max-width: 1040px) 50vw, 25vw"
+                  />
                   <span className="world-art-shade" />
                 </span>
                 <span className="world-card-footer">
