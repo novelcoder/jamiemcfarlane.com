@@ -17,8 +17,6 @@ import { getSeriesLandingData } from '@/lib/catalog';
 import { PrivateerBookCarousel } from './privateer-book-carousel';
 import styles from './privateer.module.css';
 
-const PRIVATEER_SITE = 'https://privateertales.com';
-
 const discoveryCards = [
   {
     id: 'universe',
@@ -43,7 +41,7 @@ const discoveryCards = [
     title: 'Ships & gear',
     description: 'From the Sterra to the latest acquisitions.',
     action: 'Take a look',
-    href: `${PRIVATEER_SITE}/ships`,
+    href: '/PrivateerTales/ships',
   },
   {
     id: 'reading-order',
