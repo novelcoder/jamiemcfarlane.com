@@ -36,7 +36,7 @@ const series = [
   {
     name: 'Privateer Tales',
     href: '/PrivateerTales',
-    domain: 'jamiemcfarlane.com/PrivateerTales',
+    domain: null,
     cover:
       'https://i0.wp.com/fickledragon.com/wp-content/uploads/2016/08/rookie_ebook_cover-600x900.jpg?resize=600%2C900',
     cardImage: '/cards/rookie-privateer-card.jpg',
@@ -111,7 +111,11 @@ export default function Home() {
                 className={`hero-cover hero-cover-${index + 1}`}
                 href={item.href}
                 key={item.name}
-                aria-label={`Explore ${item.name} at ${item.domain}`}
+                aria-label={
+                  item.domain
+                    ? `Explore ${item.name} at ${item.domain}`
+                    : `Explore ${item.name}`
+                }
               >
                 <Image
                   src={item.cover}
@@ -138,7 +142,11 @@ export default function Home() {
                 className={`world-card world-card-${item.className}`}
                 href={item.href}
                 key={item.name}
-                aria-label={`Visit ${item.name} at ${item.domain}`}
+                aria-label={
+                  item.domain
+                    ? `Visit ${item.name} at ${item.domain}`
+                    : `Visit ${item.name}`
+                }
               >
                 <span className="world-art">
                   <Image
@@ -152,7 +160,7 @@ export default function Home() {
                 <span className="world-card-footer">
                   <span>
                     <strong>{item.name}</strong>
-                    <small>{item.domain}</small>
+                    {item.domain ? <small>{item.domain}</small> : null}
                   </span>
                   <ArrowRight aria-hidden="true" />
                 </span>
