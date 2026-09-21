@@ -143,6 +143,17 @@ function enableAnalytics(measurementId: string, pagePath: string) {
   });
 }
 
+export function trackNewsletterSignupSuccess() {
+  const measurementId = getMeasurementId();
+  if (!measurementId || readConsentCookie() !== 'granted') return;
+
+  getGtag()('event', 'generate_lead', {
+    send_to: measurementId,
+    method: 'newsletter',
+    lead_source: 'free_starter_library',
+  });
+}
+
 export function CookieSettingsButton({ className }: { className?: string }) {
   if (!getMeasurementId()) return null;
 
