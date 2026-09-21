@@ -7,6 +7,7 @@ import {
   Users,
 } from 'lucide-react';
 import Image from 'next/image';
+import { NewsletterSignup } from '@/components/newsletter-signup';
 
 const series = [
   {
@@ -60,21 +61,6 @@ const comingSoon = [
   { label: 'Maps & timelines', icon: Globe2 },
 ] as const;
 
-function FreeBooksCta({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className={compact ? 'signup-panel signup-panel-compact' : 'signup-panel'}>
-      <div>
-        <strong>Free starter library</strong>
-        <span>Plus occasional book news</span>
-      </div>
-      <a className="gold-button" href="https://fickledragon.com">
-        {compact ? 'Send me the books' : 'Get the free books'}
-        <ArrowRight aria-hidden="true" />
-      </a>
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <main>
@@ -88,7 +74,7 @@ export default function Home() {
         </a>
         <nav aria-label="Primary navigation">
           <a href="#worlds">Books</a>
-          <a className="nav-highlight" href="https://fickledragon.com">
+          <a className="nav-highlight" href="#free-books">
             Free Books
           </a>
         </nav>
@@ -108,13 +94,16 @@ export default function Home() {
               Jamie McFarlane&apos;s books, worlds, reading orders, and
               behind-the-scenes material are getting a new home.
             </p>
-            <FreeBooksCta />
+            <NewsletterSignup anchorId="free-books" />
             <p className="signup-note">
               Occasional book news. Unsubscribe whenever you like.
             </p>
           </div>
 
-          <div className="cover-stage" aria-label="Featured Jamie McFarlane series">
+          <div
+            className="cover-stage"
+            aria-label="Featured Jamie McFarlane series"
+          >
             {series.map((item, index) => (
               <a
                 className={`hero-cover hero-cover-${index + 1}`}
@@ -196,13 +185,14 @@ export default function Home() {
           <blockquote>
             <p>
               I&apos;m building this site to make it easier to find the next
-              book, enter a new series, and explore the worlds behind the stories.
+              book, enter a new series, and explore the worlds behind the
+              stories.
             </p>
             <cite>— Jamie</cite>
           </blockquote>
           <div className="closing-cta">
             <h2>Start with a free library</h2>
-            <FreeBooksCta compact />
+            <NewsletterSignup compact />
             <p className="signup-note">
               Occasional book news. Unsubscribe whenever you like.
             </p>
