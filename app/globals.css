@@ -12,7 +12,8 @@
   --gold: #ffc252;
   --gold-bright: #ffd477;
   --serif: Georgia, 'Times New Roman', serif;
-  --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+  --sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
     'Segoe UI', sans-serif;
 }
 
@@ -139,7 +140,12 @@ img {
   inset: 0;
   z-index: -2;
   background-image:
-    linear-gradient(90deg, rgba(1, 9, 16, 0.98) 0%, rgba(2, 12, 21, 0.77) 42%, rgba(2, 12, 21, 0.12) 72%),
+    linear-gradient(
+      90deg,
+      rgba(1, 9, 16, 0.98) 0%,
+      rgba(2, 12, 21, 0.77) 42%,
+      rgba(2, 12, 21, 0.12) 72%
+    ),
     linear-gradient(0deg, #020c15 0%, transparent 30%),
     url('/cosmic-frontier.jpg');
   background-position: center;
@@ -225,12 +231,17 @@ img {
   line-height: 1.5;
 }
 
-.signup-panel {
-  display: flex;
+.signup-widget {
   width: min(100%, 36rem);
+}
+
+.signup-panel {
+  position: relative;
+  display: flex;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.65rem;
   padding: 0.38rem;
   border: 1px solid rgba(167, 206, 220, 0.66);
   border-radius: 0.25rem;
@@ -239,20 +250,45 @@ img {
   backdrop-filter: blur(12px);
 }
 
-.signup-panel > div {
-  display: flex;
-  flex-direction: column;
-  padding-left: 0.9rem;
+.signup-email {
+  min-width: 7rem;
+  min-height: 3.2rem;
+  flex: 1 1 10rem;
+  padding: 0.72rem 0.85rem;
+  border: 1px solid rgba(167, 206, 220, 0.48);
+  border-radius: 0.18rem;
+  outline: 0;
+  background: rgba(3, 20, 32, 0.92);
+  color: var(--text);
+  font: inherit;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
-.signup-panel strong {
-  font-size: 0.96rem;
-  font-weight: 650;
+.signup-email::placeholder {
+  color: #91aab7;
 }
 
-.signup-panel span {
-  color: var(--muted);
-  font-size: 0.78rem;
+.signup-email:focus-visible {
+  border-color: var(--gold-bright);
+  box-shadow: 0 0 0 2px rgba(255, 194, 82, 0.2);
+}
+
+.signup-email:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.signup-visually-hidden,
+.signup-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .gold-button {
@@ -260,17 +296,21 @@ img {
   min-height: 3.2rem;
   align-items: center;
   justify-content: center;
-  gap: 1.4rem;
-  padding: 0.75rem 1.25rem;
+  gap: 0.55rem;
+  padding: 0.75rem 1rem;
+  border: 0;
   border-radius: 0.18rem;
   background: linear-gradient(135deg, var(--gold-bright), #ffb329);
   color: #07111b;
   font-family: var(--serif);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 800;
   white-space: nowrap;
+  cursor: pointer;
   box-shadow: 0 0.75rem 2.4rem rgba(255, 181, 37, 0.18);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .gold-button svg {
@@ -281,6 +321,26 @@ img {
 .gold-button:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 1rem 2.8rem rgba(255, 181, 37, 0.3);
+}
+
+.gold-button:disabled {
+  cursor: wait;
+  transform: none;
+  opacity: 0.72;
+}
+
+.signup-feedback {
+  margin: 0.55rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.signup-feedback-success {
+  color: #75ebcf;
+}
+
+.signup-feedback-error {
+  color: #ffaaa2;
 }
 
 .signup-note {
@@ -307,7 +367,9 @@ img {
   box-shadow:
     0 1.7rem 3rem rgba(0, 0, 0, 0.65),
     -0.55rem 0 1.6rem rgba(0, 0, 0, 0.4);
-  transition: transform 220ms ease, filter 220ms ease;
+  transition:
+    transform 220ms ease,
+    filter 220ms ease;
 }
 
 .hero-cover img {
@@ -420,7 +482,9 @@ img {
   overflow: hidden;
   border: 1px solid rgba(122, 191, 216, 0.2);
   background: #061725;
-  transition: border-color 180ms ease, transform 180ms ease;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
 .world-card:hover,
@@ -616,6 +680,7 @@ img {
   margin-bottom: 0.8rem;
 }
 
+.signup-widget-compact,
 .signup-panel-compact {
   width: 100%;
 }
@@ -771,8 +836,8 @@ a:focus-visible {
     padding: 0.6rem;
   }
 
-  .signup-panel > div {
-    padding: 0.35rem 0.5rem;
+  .signup-email {
+    width: 100%;
   }
 
   .gold-button {
