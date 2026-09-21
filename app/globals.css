@@ -701,6 +701,151 @@ img {
   text-transform: uppercase;
 }
 
+.footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.footer-links > a,
+.cookie-settings-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d3e0e5;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 194, 82, 0.55);
+  text-underline-offset: 0.22em;
+}
+
+.footer-links > a:hover,
+.footer-links > a:focus-visible,
+.cookie-settings-button:hover,
+.cookie-settings-button:focus-visible {
+  color: var(--gold-bright);
+}
+
+.cookie-consent {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  left: 1rem;
+  z-index: 100;
+  display: flex;
+  width: min(calc(100% - 2rem), 64rem);
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-inline: auto;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(167, 206, 220, 0.68);
+  border-radius: 0.35rem;
+  background: rgba(2, 15, 25, 0.97);
+  box-shadow: 0 1rem 3.5rem rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(14px);
+}
+
+.cookie-consent-copy h2 {
+  margin: 0 0 0.25rem;
+  color: var(--gold-bright);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+}
+
+.cookie-consent-copy p {
+  max-width: 42rem;
+  margin: 0;
+  color: #c5d5dc;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.cookie-consent-copy a {
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.cookie-consent-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 0.6rem;
+}
+
+.cookie-consent-actions button,
+.privacy-settings-button {
+  min-height: 2.65rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid rgba(167, 206, 220, 0.52);
+  border-radius: 0.2rem;
+  background: rgba(8, 31, 47, 0.95);
+  color: var(--text);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.cookie-consent-actions button:last-child,
+.privacy-settings-button {
+  border-color: var(--gold);
+  background: var(--gold);
+  color: #07111b;
+}
+
+.privacy-page {
+  min-height: 100vh;
+  padding-block: clamp(2rem, 8vw, 6rem);
+  background:
+    linear-gradient(rgba(2, 12, 21, 0.92), rgba(2, 12, 21, 0.98)),
+    url('/cosmic-frontier.jpg') center / cover fixed;
+}
+
+.privacy-card {
+  max-width: 48rem;
+  padding: clamp(1.5rem, 5vw, 3.5rem);
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: rgba(3, 18, 29, 0.94);
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+}
+
+.privacy-card h1,
+.privacy-card h2 {
+  font-family: var(--serif);
+  font-weight: 500;
+}
+
+.privacy-card h1 {
+  margin: 1.5rem 0;
+  color: var(--gold-bright);
+  font-size: clamp(2.4rem, 7vw, 4rem);
+  line-height: 1;
+}
+
+.privacy-card h2 {
+  margin: 2rem 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.privacy-card p {
+  color: #c9d8de;
+}
+
+.privacy-back {
+  color: #bfe9f4;
+  font-size: 0.86rem;
+}
+
+.privacy-settings-button {
+  margin-top: 0.35rem;
+  text-decoration: none;
+}
+
 a:focus-visible {
   outline: 2px solid var(--gold-bright);
   outline-offset: 4px;
@@ -912,6 +1057,21 @@ a:focus-visible {
 
   .site-footer p {
     font-size: 0.7rem;
+  }
+
+  .footer-links {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .cookie-consent {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cookie-consent-actions button {
+    flex: 1;
   }
 }
 
