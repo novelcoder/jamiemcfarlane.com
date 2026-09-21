@@ -7,6 +7,8 @@ import {
   Users,
 } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
 
 const series = [
@@ -202,7 +204,11 @@ export default function Home() {
 
       <footer className="site-footer site-shell">
         <span className="wordmark">Jamie McFarlane</span>
-        <p>A new reader home is taking shape.</p>
+        <div className="footer-links">
+          <p>A new reader home is taking shape.</p>
+          <Link href="/privacy">Privacy &amp; cookies</Link>
+          <CookieSettingsButton />
+        </div>
       </footer>
     </main>
   );
