@@ -1,0 +1,340 @@
+.page {
+  --book-ink: #020c15;
+  --book-panel: #071725;
+  --book-line: rgba(134, 205, 232, 0.28);
+  --book-text: #f5f7f7;
+  --book-muted: #a8bdc9;
+  --book-cyan: #29d6e4;
+  --book-gold: #ffc252;
+  --book-serif: Georgia, 'Times New Roman', serif;
+  --book-sans:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', sans-serif;
+
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 15% 38%,
+      rgba(33, 112, 145, 0.2),
+      transparent 30rem
+    ),
+    linear-gradient(135deg, #020b13, #071b29 58%, #020b13);
+  color: var(--book-text);
+  font-family: var(--book-sans);
+}
+
+.page,
+.page * {
+  box-sizing: border-box;
+}
+
+.page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page :focus-visible {
+  outline: 2px solid var(--book-gold);
+  outline-offset: 4px;
+}
+
+.header {
+  display: flex;
+  min-height: 5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem clamp(1.25rem, 5vw, 5rem);
+  border-bottom: 1px solid var(--book-line);
+  background: rgba(2, 12, 21, 0.9);
+  backdrop-filter: blur(12px);
+}
+
+.wordmark {
+  font-family: var(--book-serif);
+  font-size: clamp(0.9rem, 1.25vw, 1.12rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.seriesLink {
+  color: var(--book-gold);
+  font-family: var(--book-serif);
+  font-size: 0.95rem;
+}
+
+.bookDetail {
+  display: grid;
+  min-height: calc(100vh - 5rem);
+  max-width: 90rem;
+  grid-template-columns: minmax(17rem, 25rem) minmax(0, 45rem);
+  align-items: start;
+  justify-content: center;
+  gap: clamp(3rem, 7vw, 8rem);
+  margin: 0 auto;
+  padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 6vw, 6rem);
+}
+
+.coverWrap {
+  position: relative;
+  align-self: start;
+}
+
+.coverGlow {
+  position: absolute;
+  z-index: 0;
+  inset: 8% -10% -3%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(41, 214, 228, 0.2),
+    rgba(7, 23, 37, 0.18) 54%,
+    transparent 74%
+  );
+  filter: blur(3rem);
+}
+
+.cover {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(220, 236, 246, 0.44);
+  box-shadow:
+    -1.2rem 1.5rem 2.8rem rgba(0, 0, 0, 0.65),
+    0 0 4rem rgba(52, 153, 209, 0.2);
+}
+
+.copy {
+  padding-top: 0.75rem;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--book-gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.backLink svg {
+  width: 1rem;
+}
+
+.eyebrow {
+  margin: 2rem 0 0;
+  color: var(--book-cyan);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.copy h1 {
+  max-width: 45rem;
+  margin: 0.6rem 0 0;
+  color: var(--book-gold);
+  font-family: var(--book-serif);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.tagline {
+  max-width: 40rem;
+  margin: 1.4rem 0 0;
+  color: #dce6ee;
+  font-family: var(--book-serif);
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.releaseDate {
+  margin: 1rem 0 0;
+  color: var(--book-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.blurb {
+  max-width: 42rem;
+  margin-top: 2rem;
+  color: #cad6de;
+  font-family: var(--book-serif);
+  font-size: 1.04rem;
+  line-height: 1.75;
+}
+
+.blurb p {
+  margin: 0 0 1.15rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  min-height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.8rem 1.35rem;
+  border: 1px solid var(--book-gold);
+  border-radius: 0.2rem;
+  font-size: 0.85rem;
+  font-weight: 850;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition:
+    transform 160ms ease,
+    filter 160ms ease;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #ffd477, #ec9f22);
+  color: #07111b !important;
+}
+
+.secondaryButton {
+  border-color: rgba(167, 206, 220, 0.5);
+  background: rgba(7, 23, 37, 0.8);
+}
+
+.primaryButton:hover,
+.primaryButton:focus-visible,
+.secondaryButton:hover,
+.secondaryButton:focus-visible {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+}
+
+.primaryButton svg,
+.secondaryButton svg {
+  width: 1.1rem;
+}
+
+.pagination {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  border-top: 1px solid var(--book-line);
+  background: var(--book-line);
+}
+
+.pagination > a,
+.pagination > span {
+  display: flex;
+  min-height: 7rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.4rem clamp(1.4rem, 5vw, 5rem);
+  background: #020d14;
+}
+
+.pagination > a:last-child {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.pagination a:hover,
+.pagination a:focus-visible {
+  background: #061927;
+}
+
+.pagination svg {
+  flex: 0 0 auto;
+  color: var(--book-gold);
+}
+
+.pagination span span {
+  display: block;
+}
+
+.pagination a > span {
+  color: var(--book-muted);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pagination strong {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--book-text);
+  font-family: var(--book-serif);
+  font-size: 1.15rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.footer {
+  display: flex;
+  min-height: 7rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1.5rem clamp(1.5rem, 5vw, 5rem);
+  border-top: 1px solid var(--book-line);
+  background: #020c13;
+  color: var(--book-muted);
+  font-size: 0.82rem;
+}
+
+.footer > a:last-child {
+  color: var(--book-gold);
+}
+
+@media (max-width: 760px) {
+  .header {
+    min-height: 4.5rem;
+  }
+
+  .wordmark {
+    font-size: 0.76rem;
+    letter-spacing: 0.18em;
+  }
+
+  .bookDetail {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding: 2.5rem 1.25rem 3.5rem;
+  }
+
+  .coverWrap {
+    width: min(64vw, 18rem);
+    margin: 0 auto;
+  }
+
+  .copy h1 {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .pagination strong {
+    font-size: 0.9rem;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *,
+  .page *::before,
+  .page *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

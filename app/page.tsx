@@ -35,8 +35,8 @@ const series = [
   },
   {
     name: 'Privateer Tales',
-    href: 'https://privateertales.com',
-    domain: 'privateertales.com',
+    href: '/PrivateerTales',
+    domain: 'jamiemcfarlane.com/PrivateerTales',
     cover:
       'https://i0.wp.com/fickledragon.com/wp-content/uploads/2016/08/rookie_ebook_cover-600x900.jpg?resize=600%2C900',
     cardImage: '/cards/rookie-privateer-card.jpg',
