@@ -61,8 +61,10 @@ function getGtag(): Gtag {
   window.dataLayer = window.dataLayer ?? [];
   window.gtag =
     window.gtag ??
-    function (...args: unknown[]) {
-      window.dataLayer?.push(args);
+    function () {
+      // gtag.js requires an arguments-shaped queue entry, not a plain array.
+      // oxlint-disable-next-line prefer-rest-params
+      window.dataLayer?.push(arguments);
     };
   return window.gtag;
 }
