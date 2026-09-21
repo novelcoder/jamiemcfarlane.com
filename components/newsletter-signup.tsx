@@ -3,6 +3,8 @@
 import { ArrowRight } from 'lucide-react';
 import { useId, useState, type SubmitEvent } from 'react';
 
+import { trackNewsletterSignupSuccess } from '@/components/analytics-consent';
+
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error';
 
 type SubscribeResponse = {
@@ -63,6 +65,9 @@ export function NewsletterSignup({
         return;
       }
 
+      if (typeof website !== 'string' || website.trim() === '') {
+        trackNewsletterSignupSuccess();
+      }
       form.reset();
       setSubmissionState('success');
       setMessage("You're in. Check your inbox for the next step.");
