@@ -23,6 +23,7 @@ export type BookRecord = {
   tagline: string;
   blurb: string;
   card_description: string;
+  status: string;
   cover_url: string;
   cover_thumb_url: string;
   cover_alt: string;
@@ -114,6 +115,7 @@ function asBook(row: AppwriteRow): BookRecord {
     tagline: stringValue(row.tagline),
     blurb: stringValue(row.blurb),
     card_description: stringValue(row.card_description),
+    status: stringValue(row.status),
     cover_url: stringValue(row.cover_url),
     cover_thumb_url: stringValue(row.cover_thumb_url),
     cover_alt: stringValue(
@@ -227,10 +229,10 @@ export const getBookPageData = cache(async (requestedSlug: string) => {
   };
 });
 
-async function getPublishedBooksForSeries(seriesId: string) {
+async function getBooksForSeries(seriesId: string, statuses: string[]) {
   const queries = new URLSearchParams();
   queries.append('queries[]', equalQuery('series_id', [seriesId]));
-  queries.append('queries[]', equalQuery('status', ['published']));
+  queries.append('queries[]', equalQuery('status', statuses));
   queries.append('queries[]', limitQuery(100));
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
@@ -240,11 +242,14 @@ async function getPublishedBooksForSeries(seriesId: string) {
   return result.rows.map(asBook).sort(sortBooks);
 }
 
-export async function getSeriesLandingData(slug: string): Promise<{
+export async function getSeriesLandingData(
+  slug: string,
+  statuses = ['published'],
+): Promise<{
   series: SeriesRecord;
   books: BookRecord[];
 }> {
   const series = await getSeriesBySlug(slug);
-  const books = await getPublishedBooksForSeries(series.id);
+  const books = await getBooksForSeries(series.id, statuses);
   return { series, books };
 }

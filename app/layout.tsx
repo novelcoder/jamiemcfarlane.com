@@ -3,6 +3,7 @@ import { AnalyticsConsent } from '@/components/analytics-consent';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.jamiemcfarlane.com'),
   title: 'Jamie McFarlane | Science Fiction & Fantasy Author',
   description:
     'Explore the books and worlds of Jamie McFarlane, join the reader list, and receive a free starter library.',

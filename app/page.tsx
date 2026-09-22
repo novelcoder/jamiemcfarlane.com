@@ -14,8 +14,8 @@ import { NewsletterSignup } from '@/components/newsletter-signup';
 const series = [
   {
     name: 'Spaceship Mechanic',
-    href: 'https://fickledragon.com/spaceship-mechanic',
-    domain: 'fickledragon.com',
+    href: '/SpaceshipMechanic',
+    domain: null,
     cover:
       'https://sfo.cloud.appwrite.io/v1/storage/buckets/6a50ff920031640f71bd/files/boltguns-ducttape-cover/view?project=6a0b4638002a71c2b8ec',
     cardImage: '/cards/boltguns-card.jpg',
