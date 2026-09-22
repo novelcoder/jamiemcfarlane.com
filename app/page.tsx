@@ -15,7 +15,6 @@ const series = [
   {
     name: 'Spaceship Mechanic',
     href: '/SpaceshipMechanic',
-    domain: null,
     cover:
       'https://sfo.cloud.appwrite.io/v1/storage/buckets/6a50ff920031640f71bd/files/boltguns-ducttape-cover/view?project=6a0b4638002a71c2b8ec',
     cardImage: '/cards/boltguns-card.jpg',
@@ -24,8 +23,7 @@ const series = [
   },
   {
     name: 'Crownlocked Heirs',
-    href: 'https://crownlockedheirs.com',
-    domain: 'crownlockedheirs.com',
+    href: '/CrownlockedHeirs',
     cover:
       'https://sfo.cloud.appwrite.io/v1/storage/buckets/6aabf091000da4dc7980/files/6aabf396003b238d5d33/view?project=6a0b4638002a71c2b8ec',
     cardImage:
@@ -36,7 +34,6 @@ const series = [
   {
     name: 'Privateer Tales',
     href: '/PrivateerTales',
-    domain: null,
     cover:
       'https://i0.wp.com/fickledragon.com/wp-content/uploads/2016/08/rookie_ebook_cover-600x900.jpg?resize=600%2C900',
     cardImage: '/cards/rookie-privateer-card.jpg',
@@ -46,7 +43,6 @@ const series = [
   {
     name: 'Junkyard Pirate',
     href: '/JunkyardPirate',
-    domain: null,
     cover:
       'https://sfo.cloud.appwrite.io/v1/storage/buckets/6a50ff920031640f71bd/files/6a510087040ed2c6f583/view?project=6a0b4638002a71c2b8ec',
     cardImage: '/cards/junkyard-pirate-card.jpg',
@@ -111,11 +107,7 @@ export default function Home() {
                 className={`hero-cover hero-cover-${index + 1}`}
                 href={item.href}
                 key={item.name}
-                aria-label={
-                  item.domain
-                    ? `Explore ${item.name} at ${item.domain}`
-                    : `Explore ${item.name}`
-                }
+                aria-label={`Explore ${item.name}`}
               >
                 <Image
                   src={item.cover}
@@ -142,11 +134,7 @@ export default function Home() {
                 className={`world-card world-card-${item.className}`}
                 href={item.href}
                 key={item.name}
-                aria-label={
-                  item.domain
-                    ? `Visit ${item.name} at ${item.domain}`
-                    : `Visit ${item.name}`
-                }
+                aria-label={`Visit ${item.name}`}
               >
                 <span className="world-art">
                   <Image
@@ -160,7 +148,6 @@ export default function Home() {
                 <span className="world-card-footer">
                   <span>
                     <strong>{item.name}</strong>
-                    {item.domain ? <small>{item.domain}</small> : null}
                   </span>
                   <ArrowRight aria-hidden="true" />
                 </span>

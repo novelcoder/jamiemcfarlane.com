@@ -5,6 +5,7 @@ type SeriesAliasPageProps = {
 };
 
 const canonicalSeriesRoutes = new Map([
+  ['crownlockedheirs', '/CrownlockedHeirs'],
   ['junkyardpirate', '/JunkyardPirate'],
   ['privateertales', '/PrivateerTales'],
   ['spaceshipmechanic', '/SpaceshipMechanic'],

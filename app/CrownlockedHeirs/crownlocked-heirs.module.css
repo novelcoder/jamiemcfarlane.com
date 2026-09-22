@@ -1,0 +1,732 @@
+.page {
+  --crown-midnight: #030914;
+  --crown-ink: #071526;
+  --crown-panel: #091c31;
+  --crown-ice: #e2f7fb;
+  --crown-silver: #a9c8d6;
+  --crown-gold: #f1b547;
+  --crown-cyan: #39d8f4;
+  --crown-line: rgba(171, 223, 237, 0.2);
+  --crown-display: Georgia, 'Times New Roman', serif;
+
+  min-width: 320px;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--crown-midnight);
+  color: var(--crown-ice);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+.page,
+.page * {
+  box-sizing: border-box;
+}
+
+.page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page :focus-visible {
+  outline: 3px solid var(--crown-gold);
+  outline-offset: 4px;
+}
+
+.page h1,
+.page h2,
+.page h3,
+.page p {
+  margin-top: 0;
+}
+
+.page h2,
+.page h3 {
+  font-family: var(--crown-display);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.06;
+}
+
+.skipLink {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.7rem 1rem;
+  background: var(--crown-gold);
+  color: var(--crown-midnight);
+  font-weight: 800;
+  transform: translateY(-160%);
+}
+
+.skipLink:focus {
+  transform: translateY(0);
+}
+
+.siteHeader {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  right: 0;
+  left: 0;
+  display: grid;
+  min-height: 5rem;
+  grid-template-columns: minmax(12rem, 0.7fr) auto minmax(10rem, 0.7fr);
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0.75rem clamp(1.25rem, 4vw, 4rem);
+  border-bottom: 1px solid var(--crown-line);
+  background: linear-gradient(
+    180deg,
+    rgba(3, 9, 20, 0.94),
+    rgba(3, 9, 20, 0.62)
+  );
+  backdrop-filter: blur(14px);
+}
+
+.authorWordmark {
+  width: fit-content;
+  font-family: var(--crown-display);
+  font-size: 0.92rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.siteHeader nav {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.4rem);
+}
+
+.siteHeader nav a {
+  position: relative;
+  display: flex;
+  min-height: 100%;
+  align-items: center;
+  color: var(--crown-silver);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.siteHeader nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--crown-gold);
+  content: '';
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 180ms ease;
+}
+
+.siteHeader nav a:hover::after,
+.siteHeader nav a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.headerButton {
+  justify-self: end;
+  padding: 0.68rem 1.05rem;
+  border: 1px solid rgba(241, 181, 71, 0.72);
+  color: #fff;
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.headerButton:hover,
+.headerButton:focus-visible {
+  background: var(--crown-gold);
+  color: var(--crown-midnight);
+}
+
+.eyebrow {
+  margin-bottom: 0.7rem;
+  color: var(--crown-gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  min-height: 46rem;
+  align-items: center;
+  padding: 7.5rem max(1.5rem, calc((100vw - 82rem) / 2)) 4rem;
+  isolation: isolate;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 9, 20, 0.98) 0%,
+      rgba(3, 9, 20, 0.86) 35%,
+      rgba(3, 9, 20, 0.28) 69%,
+      rgba(3, 9, 20, 0.08) 100%
+    ),
+    linear-gradient(0deg, rgba(3, 9, 20, 0.82), transparent 42%),
+    url('/images/crownlocked-heirs/hero-bjargfold.jpg') 58% center / cover
+      no-repeat;
+}
+
+.hero::after {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 75% 48%,
+      rgba(57, 216, 244, 0.16),
+      transparent 26rem
+    ),
+    linear-gradient(180deg, transparent 70%, var(--crown-midnight));
+  content: '';
+  pointer-events: none;
+}
+
+.heroCopy {
+  width: min(51vw, 46rem);
+}
+
+.seriesWordmark {
+  width: min(100%, 46rem);
+  margin: -0.5rem 0 1.4rem;
+  filter: drop-shadow(0 0 1.4rem rgba(57, 216, 244, 0.22));
+}
+
+.seriesWordmark img {
+  width: 100%;
+  height: auto;
+}
+
+.heroTagline {
+  max-width: 42rem;
+  margin-bottom: 1.8rem;
+  color: #d4e4e9;
+  font-family: var(--crown-display);
+  font-size: clamp(1.25rem, 2vw, 1.72rem);
+  font-style: italic;
+  line-height: 1.55;
+  text-wrap: balance;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.75rem 1.2rem;
+  font-size: 0.75rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition:
+    transform 160ms ease,
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.primaryButton {
+  border: 1px solid var(--crown-gold);
+  background: var(--crown-gold);
+  color: #07111b !important;
+  box-shadow: 0 0.9rem 2.5rem rgba(241, 181, 71, 0.18);
+}
+
+.secondaryButton {
+  border: 1px solid rgba(226, 247, 251, 0.44);
+  background: rgba(3, 9, 20, 0.55);
+}
+
+.primaryButton:hover,
+.primaryButton:focus-visible,
+.secondaryButton:hover,
+.secondaryButton:focus-visible {
+  transform: translateY(-2px);
+}
+
+.secondaryButton:hover,
+.secondaryButton:focus-visible {
+  border-color: var(--crown-cyan);
+  background: rgba(7, 21, 38, 0.85);
+}
+
+.primaryButton svg,
+.bookLinks svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.seriesSection {
+  display: grid;
+  width: min(100% - 3rem, 82rem);
+  grid-template-columns: minmax(18rem, 0.8fr) minmax(24rem, 1.15fr);
+  gap: 1.5rem clamp(3rem, 7vw, 7rem);
+  margin-inline: auto;
+  padding-block: 5rem 4.5rem;
+}
+
+.seriesHeading h2 {
+  max-width: 29rem;
+  margin-bottom: 0;
+  font-size: clamp(2.35rem, 4.3vw, 4.25rem);
+  text-wrap: balance;
+}
+
+.seriesCopy {
+  align-self: end;
+  color: #b9ced6;
+  font-family: var(--crown-display);
+  font-size: clamp(1.05rem, 1.45vw, 1.22rem);
+  line-height: 1.75;
+}
+
+.seriesCopy p {
+  margin-bottom: 1rem;
+}
+
+.seriesCopy p:last-child {
+  margin-bottom: 0;
+}
+
+.seriesFeatures {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  border-block: 1px solid var(--crown-line);
+  list-style: none;
+}
+
+.seriesFeatures li {
+  padding: 1.15rem 1rem;
+  color: var(--crown-silver);
+  font-size: 0.76rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.seriesFeatures li + li {
+  border-left: 1px solid var(--crown-line);
+}
+
+.booksSection {
+  padding: 4.75rem max(1.5rem, calc((100vw - 82rem) / 2)) 5rem;
+  border-block: 1px solid var(--crown-line);
+  background:
+    radial-gradient(
+      circle at 50% 0,
+      rgba(30, 126, 164, 0.17),
+      transparent 36rem
+    ),
+    linear-gradient(180deg, #06111f, #030914);
+}
+
+.sectionIntro {
+  display: grid;
+  grid-template-columns: 1fr minmax(18rem, 28rem);
+  align-items: end;
+  gap: 3rem;
+  margin-bottom: 2.5rem;
+}
+
+.sectionIntro h2 {
+  margin-bottom: 0;
+  font-size: clamp(2.4rem, 4vw, 4rem);
+}
+
+.sectionIntro > p {
+  margin-bottom: 0.35rem;
+  color: var(--crown-silver);
+  line-height: 1.65;
+}
+
+.bookGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.bookCard {
+  display: grid;
+  min-width: 0;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
+  border: 1px solid var(--crown-line);
+  background: rgba(8, 25, 43, 0.82);
+  box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, 0.22);
+}
+
+.bookCover {
+  position: relative;
+  display: grid;
+  min-height: 30rem;
+  place-items: center;
+  padding: 2.3rem 2rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at center, rgba(57, 216, 244, 0.2), transparent 60%),
+    #06111f;
+}
+
+.bookCover::after {
+  position: absolute;
+  inset: auto 0 0;
+  height: 32%;
+  background: linear-gradient(transparent, rgba(3, 9, 20, 0.65));
+  content: '';
+  pointer-events: none;
+}
+
+.bookCover img {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 17.5rem);
+  height: auto;
+  box-shadow: 0 1.4rem 2.5rem rgba(0, 0, 0, 0.55);
+}
+
+.bookCopy {
+  display: flex;
+  min-height: 17rem;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.bookCopy > p {
+  margin-bottom: 0.55rem;
+  color: var(--crown-gold);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.bookCopy h3 {
+  margin-bottom: 0.7rem;
+  font-size: clamp(1.65rem, 2.5vw, 2.35rem);
+}
+
+.bookCopy > span {
+  display: block;
+  margin-bottom: 1.5rem;
+  color: var(--crown-silver);
+  font-family: var(--crown-display);
+  font-size: 1.03rem;
+  line-height: 1.55;
+}
+
+.bookLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: auto;
+}
+
+.bookLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--crown-gold);
+  font-size: 0.73rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.bookLinks a:hover,
+.bookLinks a:focus-visible {
+  color: #fff;
+}
+
+.bookLinks .audioLink {
+  color: var(--crown-silver);
+}
+
+.newsletterSection {
+  display: grid;
+  grid-template-columns: minmax(20rem, 0.9fr) minmax(23rem, 1fr);
+  align-items: center;
+  gap: clamp(3rem, 8vw, 8rem);
+  padding: 4.5rem max(1.5rem, calc((100vw - 76rem) / 2));
+  background:
+    radial-gradient(
+      circle at 18% 50%,
+      rgba(57, 216, 244, 0.1),
+      transparent 24rem
+    ),
+    var(--crown-ink);
+}
+
+.newsletterSection h2 {
+  margin-bottom: 0.85rem;
+  font-size: clamp(2rem, 3.3vw, 3.15rem);
+}
+
+.newsletterSection h2 span {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--crown-silver);
+  font-size: 0.63em;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.newsletterSection > div > p:last-child {
+  margin-bottom: 0;
+  color: var(--crown-silver);
+  font-size: 0.9rem;
+}
+
+.newsletterSection :global(.signup-panel) {
+  border-color: rgba(169, 200, 214, 0.55);
+  background: rgba(3, 9, 20, 0.7);
+}
+
+.newsletterSection :global(.gold-button) {
+  background: var(--crown-gold);
+  box-shadow: none;
+}
+
+.footer {
+  display: grid;
+  min-height: 6rem;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem max(1.5rem, calc((100vw - 82rem) / 2));
+  border-top: 1px solid var(--crown-line);
+  color: var(--crown-silver);
+}
+
+.footer > p {
+  margin-bottom: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.footer > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  font-size: 0.78rem;
+}
+
+.cookieButton {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.footer a:hover,
+.footer a:focus-visible,
+.cookieButton:hover,
+.cookieButton:focus-visible {
+  color: #fff;
+}
+
+@media (max-width: 980px) {
+  .siteHeader {
+    grid-template-columns: 1fr auto;
+  }
+
+  .siteHeader nav {
+    display: none;
+  }
+
+  .heroCopy {
+    width: min(64vw, 42rem);
+  }
+
+  .bookCover {
+    min-height: 25rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .bookCopy {
+    min-height: 19rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .siteHeader {
+    min-height: 4.5rem;
+  }
+
+  .headerButton {
+    display: none;
+  }
+
+  .hero {
+    min-height: 42rem;
+    align-items: flex-end;
+    padding-top: 7rem;
+    background:
+      linear-gradient(
+        0deg,
+        rgba(3, 9, 20, 0.98) 0%,
+        rgba(3, 9, 20, 0.9) 38%,
+        rgba(3, 9, 20, 0.2) 100%
+      ),
+      url('/images/crownlocked-heirs/hero-bjargfold.jpg') 66% center / cover
+        no-repeat;
+  }
+
+  .heroCopy {
+    width: 100%;
+  }
+
+  .seriesWordmark {
+    width: min(100%, 37rem);
+  }
+
+  .seriesSection,
+  .sectionIntro,
+  .newsletterSection {
+    grid-template-columns: 1fr;
+  }
+
+  .seriesSection {
+    gap: 2rem;
+    padding-block: 4rem;
+  }
+
+  .seriesCopy {
+    align-self: auto;
+  }
+
+  .sectionIntro {
+    gap: 1.2rem;
+  }
+
+  .bookGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .bookCard {
+    grid-template-columns: minmax(11rem, 0.8fr) 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .bookCover {
+    min-height: 25rem;
+  }
+
+  .bookCopy {
+    min-height: auto;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .newsletterSection {
+    gap: 2rem;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding-block: 2rem;
+  }
+
+  .footer > div {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 540px) {
+  .hero {
+    min-height: 40rem;
+    padding-bottom: 2.7rem;
+  }
+
+  .seriesWordmark {
+    margin-bottom: 0.9rem;
+  }
+
+  .heroTagline {
+    font-size: 1.13rem;
+  }
+
+  .heroActions,
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+  }
+
+  .seriesFeatures {
+    grid-template-columns: 1fr;
+  }
+
+  .seriesFeatures li + li {
+    border-top: 1px solid var(--crown-line);
+    border-left: 0;
+  }
+
+  .booksSection {
+    padding-block: 4rem;
+  }
+
+  .bookCard {
+    grid-template-columns: 1fr;
+  }
+
+  .bookCover {
+    min-height: 0;
+    padding: 2rem 3rem;
+  }
+
+  .bookCopy {
+    padding: 1.35rem;
+  }
+
+  .newsletterSection {
+    padding-block: 4rem;
+  }
+
+  .newsletterSection :global(.signup-panel) {
+    flex-direction: column;
+  }
+
+  .newsletterSection :global(.signup-email),
+  .newsletterSection :global(.gold-button) {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page * {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
