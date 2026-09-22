@@ -22,6 +22,10 @@ const crew = [
     initials: 'RB',
     name: 'Rix Banner',
     role: 'Mechanic · Reluctant hero',
+    image: '/images/spaceship-mechanic/rix-crew.png',
+    imageAlt:
+      'Rix Banner posing beside engine machinery in Calypso’s engine room',
+    portraitTopAligned: true,
     description:
       'A World War II airplane mechanic who can diagnose almost anything—usually while calculating what the repair is going to cost him.',
   },
@@ -29,6 +33,10 @@ const crew = [
     initials: 'KW',
     name: 'Kel Warp',
     role: 'Pilot · Trader · Instigator',
+    image: '/images/spaceship-mechanic/kel-crew.png',
+    imageAlt:
+      'Kel Warp posing in a tailored flight suit with Calypso behind her in a bright hangar',
+    portraitTopAligned: true,
     description:
       'Calypso’s fearless pilot and Rix’s fifty-fifty partner. Kel sees opportunity where everyone else sees incoming fire.',
   },
@@ -36,6 +44,10 @@ const crew = [
     initials: 'AM',
     name: 'Amari',
     role: 'Pilot · Strategist',
+    image: '/images/spaceship-mechanic/amari-crew.png',
+    imageAlt:
+      'Amari posing beside a space-station observation window overlooking a sparse asteroid field',
+    portraitTopAligned: true,
     description:
       'Perceptive, formidable, and impossible to underestimate. Amari brings sharp instincts to the crew’s messiest problems.',
   },
@@ -43,13 +55,21 @@ const crew = [
     initials: 'PH',
     name: 'Philo',
     role: 'Crew · Repair · Cargo',
+    image: '/images/spaceship-mechanic/philo-crew-human.png',
+    imageAlt:
+      'Philo smiling in his coveralls in front of a tall workshop tool chest',
+    portraitTopAligned: false,
     description:
-      'A small green Grintok with impressive strength, a gift for making friends at every port, and absolute loyalty to his found family.',
+      'A short, bearded Korrali with impressive strength, a gift for making friends at every port, and absolute loyalty to his found family.',
   },
   {
     initials: 'BV',
     name: 'Beverly',
     role: 'Research · Translation · Systems',
+    image: '/images/spaceship-mechanic/beverly-crew.png',
+    imageAlt:
+      'Beverly’s projected avatar leaning against a full-sized coffee cup on a workshop table',
+    portraitTopAligned: false,
     description:
       'A microscopic Beltigersk symbiote with a projected avatar, formidable processing power, and opinions about almost everything.',
   },
@@ -154,7 +174,25 @@ export default async function SpaceshipMechanicExplorePage() {
 
         <div className={styles.crewGrid}>
           {crew.map((person, index) => (
-            <article className={styles.crewCard} key={person.name}>
+            <article
+              className={`${styles.crewCard} ${person.image ? styles.crewCardPortrait : ''}`}
+              key={person.name}
+            >
+              {person.image ? (
+                <>
+                  <Image
+                    className={`${styles.crewPortrait} ${person.portraitTopAligned ? styles.crewPortraitTopAligned : ''}`}
+                    src={person.image}
+                    alt={person.imageAlt ?? ''}
+                    fill
+                    sizes="(max-width: 920px) min(78vw, 20rem), 18vw"
+                  />
+                  <span
+                    className={styles.crewPortraitShade}
+                    aria-hidden="true"
+                  />
+                </>
+              ) : null}
               <div className={styles.crewIndex}>
                 <span>{person.initials}</span>
                 <small>{String(index + 1).padStart(2, '0')}</small>

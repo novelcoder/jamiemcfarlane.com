@@ -951,10 +951,61 @@
   min-height: 19rem;
   grid-column: span 2;
   overflow: hidden;
+  isolation: isolate;
   padding: 1.25rem;
   border: 1px solid var(--mechanic-line);
   background:
     linear-gradient(145deg, rgba(80, 216, 223, 0.08), transparent 45%), #0d1a23;
+}
+
+.crewCardPortrait {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.crewPortrait {
+  z-index: -2;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+.crewPortraitTopAligned {
+  object-position: 50% 0%;
+}
+
+.crewPortraitShade {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 12, 18, 0.08) 22%,
+      rgba(5, 12, 18, 0.84) 64%,
+      #0d1a23 100%
+    ),
+    linear-gradient(90deg, rgba(5, 12, 18, 0.28), transparent 50%);
+}
+
+.crewCardPortrait .crewIndex {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  left: 1rem;
+  z-index: 2;
+  margin: 0;
+}
+
+.crewCardPortrait .crewIndex span {
+  border-color: rgba(80, 216, 223, 0.8);
+  background: rgba(5, 12, 18, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.crewCardPortrait .crewIndex small {
+  color: rgba(242, 229, 205, 0.78);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
 }
 
 .crewCard::after {
@@ -995,6 +1046,8 @@
 }
 
 .crewCard > p {
+  position: relative;
+  z-index: 2;
   margin-bottom: 0.4rem;
   color: var(--mechanic-gold);
   font-family: var(--mechanic-mono);
@@ -1005,6 +1058,8 @@
 }
 
 .crewCard h3 {
+  position: relative;
+  z-index: 2;
   margin-bottom: 0.8rem;
   font-size: 1.8rem;
 }
