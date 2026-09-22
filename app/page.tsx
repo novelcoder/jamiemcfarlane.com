@@ -45,8 +45,8 @@ const series = [
   },
   {
     name: 'Junkyard Pirate',
-    href: 'https://junkyardpirate.com',
-    domain: 'junkyardpirate.com',
+    href: '/JunkyardPirate',
+    domain: null,
     cover:
       'https://sfo.cloud.appwrite.io/v1/storage/buckets/6a50ff920031640f71bd/files/6a510087040ed2c6f583/view?project=6a0b4638002a71c2b8ec',
     cardImage: '/cards/junkyard-pirate-card.jpg',
