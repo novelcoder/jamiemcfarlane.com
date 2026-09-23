@@ -5,6 +5,14 @@ import { ArrowRight } from 'lucide-react';
 
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
+import {
+  getSpaceshipAttributionContext,
+  purchaseUrlForBook,
+} from '@/lib/attribution';
+import {
+  ATTRIBUTION_QUERY_PARAM,
+  withAttribution,
+} from '@/lib/attribution-routing';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
 
 import { SpaceshipBookCarousel } from './spaceship-book-carousel';
@@ -48,11 +56,24 @@ function formatDate(value: string) {
   return Number.isNaN(date.getTime()) ? '' : dateFormatter.format(date);
 }
 
-export default async function SpaceshipMechanicPage() {
+type SpaceshipMechanicPageProps = {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
+};
+
+export default async function SpaceshipMechanicPage({
+  searchParams,
+}: SpaceshipMechanicPageProps) {
   const { series, books } = await getSeriesLandingData('spaceship-mechanic', [
     'published',
     'coming_soon',
   ]);
+  const query = await searchParams;
+  const attribution = await getSpaceshipAttributionContext(
+    query[ATTRIBUTION_QUERY_PARAM],
+    books,
+  );
   const startBook = books.find((book) => book.series_number === 1) ?? books[0];
   const upcomingBook = books.find((book) => book.status === 'coming_soon');
   const seriesIntro = series.description.split('\n\n')[1] || series.description;
@@ -69,10 +90,23 @@ export default async function SpaceshipMechanicPage() {
         </Link>
         <nav aria-label="Spaceship Mechanic">
           <a href="#books">The books</a>
-          <Link href="/SpaceshipMechanic/explore">Explore the universe</Link>
+          <Link
+            href={withAttribution(
+              '/SpaceshipMechanic/explore',
+              attribution?.sourceKey ?? null,
+            )}
+          >
+            Explore the universe
+          </Link>
         </nav>
         {startBook ? (
-          <Link className={styles.headerButton} href={bookPath(startBook)}>
+          <Link
+            className={styles.headerButton}
+            href={withAttribution(
+              bookPath(startBook),
+              attribution?.sourceKey ?? null,
+            )}
+          >
             Start the series
           </Link>
         ) : null}
@@ -97,7 +131,7 @@ export default async function SpaceshipMechanicPage() {
                 </div>
                 {upcomingBook.store_url ? (
                   <a
-                    href={upcomingBook.store_url}
+                    href={purchaseUrlForBook(upcomingBook, attribution)}
                     target="_blank"
                     rel="noreferrer"
                   >
@@ -150,7 +184,10 @@ export default async function SpaceshipMechanicPage() {
               </p>
               <Link
                 className={styles.secondaryButton}
-                href="/SpaceshipMechanic/explore"
+                href={withAttribution(
+                  '/SpaceshipMechanic/explore',
+                  attribution?.sourceKey ?? null,
+                )}
               >
                 Explore the Spaceship Mechanic universe
                 <ArrowRight aria-hidden="true" />
@@ -161,7 +198,7 @@ export default async function SpaceshipMechanicPage() {
               <div className={styles.storyShelfLabel}>
                 <p className={styles.eyebrow}>Reading order</p>
               </div>
-              <SpaceshipBookCarousel books={books} />
+              <SpaceshipBookCarousel books={books} attribution={attribution} />
             </div>
           </div>
         </section>
