@@ -10,6 +10,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import type { AttributionContext } from '@/lib/attribution';
+import {
+  selectPurchaseUrl,
+  withAttribution,
+} from '@/lib/attribution-routing';
 import type { BookRecord } from '@/lib/catalog';
 
 import styles from './spaceship-mechanic.module.css';
@@ -20,7 +25,13 @@ function bookNumber(book: BookRecord) {
     : `Book ${book.series_number}`;
 }
 
-export function SpaceshipBookCarousel({ books }: { books: BookRecord[] }) {
+export function SpaceshipBookCarousel({
+  books,
+  attribution,
+}: {
+  books: BookRecord[];
+  attribution: AttributionContext | null;
+}) {
   return (
     <Carousel
       className={styles.bookCarousel}
@@ -50,14 +61,23 @@ export function SpaceshipBookCarousel({ books }: { books: BookRecord[] }) {
               <article className={styles.thumbnailCard}>
                 {book.status === 'published' ? (
                   <Link
-                    href={`/books/${encodeURIComponent(book.slug)}`}
+                    href={withAttribution(
+                      `/books/${encodeURIComponent(book.slug)}`,
+                      attribution?.sourceKey ?? null,
+                    )}
                     aria-label={`${book.title}, ${bookNumber(book)}`}
                   >
                     {cover}
                   </Link>
                 ) : book.store_url ? (
                   <a
-                    href={book.store_url}
+                    href={
+                      selectPurchaseUrl({
+                        publicStoreUrl: book.store_url,
+                        attributionUrl: attribution?.purchaseUrls[book.slug],
+                        expectedAsin: book.kindle_asin,
+                      })
+                    }
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`${book.title}, ${bookNumber(book)}, preorder`}

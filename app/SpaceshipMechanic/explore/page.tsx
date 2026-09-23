@@ -12,6 +12,11 @@ import {
 } from 'lucide-react';
 
 import { CookieSettingsButton } from '@/components/analytics-consent';
+import { getSpaceshipAttributionContext } from '@/lib/attribution';
+import {
+  ATTRIBUTION_QUERY_PARAM,
+  withAttribution,
+} from '@/lib/attribution-routing';
 import { getSeriesLandingData } from '@/lib/catalog';
 
 import { SpaceshipVideoGallery } from '../spaceship-video-gallery';
@@ -107,11 +112,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function SpaceshipMechanicExplorePage() {
+type SpaceshipMechanicExplorePageProps = {
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
+};
+
+export default async function SpaceshipMechanicExplorePage({
+  searchParams,
+}: SpaceshipMechanicExplorePageProps) {
   const { books } = await getSeriesLandingData('spaceship-mechanic', [
     'published',
     'coming_soon',
   ]);
+  const query = await searchParams;
+  const attribution = await getSpaceshipAttributionContext(
+    query[ATTRIBUTION_QUERY_PARAM],
+    books,
+  );
   const startBook = books.find((book) => book.series_number === 1) ?? books[0];
 
   return (
@@ -125,7 +143,14 @@ export default async function SpaceshipMechanicExplorePage() {
           Jamie McFarlane
         </Link>
         <nav aria-label="Explore Spaceship Mechanic">
-          <Link href="/SpaceshipMechanic">Series home</Link>
+          <Link
+            href={withAttribution(
+              '/SpaceshipMechanic',
+              attribution?.sourceKey ?? null,
+            )}
+          >
+            Series home
+          </Link>
           <a href="#crew">Crew</a>
           <a href="#calypso">Calypso</a>
           <a href="#patience">Patience Station</a>
@@ -134,7 +159,10 @@ export default async function SpaceshipMechanicExplorePage() {
         {startBook ? (
           <Link
             className={styles.headerButton}
-            href={`/books/${encodeURIComponent(startBook.slug)}`}
+            href={withAttribution(
+              `/books/${encodeURIComponent(startBook.slug)}`,
+              attribution?.sourceKey ?? null,
+            )}
           >
             Start the series
           </Link>
@@ -157,7 +185,13 @@ export default async function SpaceshipMechanicExplorePage() {
             Meet the people, ships, and places that turn one Wisconsin
             mechanic’s bad day into a life among the stars.
           </p>
-          <Link className={styles.textLink} href="/SpaceshipMechanic">
+          <Link
+            className={styles.textLink}
+            href={withAttribution(
+              '/SpaceshipMechanic',
+              attribution?.sourceKey ?? null,
+            )}
+          >
             <ArrowLeft aria-hidden="true" /> Back to the series
           </Link>
         </div>

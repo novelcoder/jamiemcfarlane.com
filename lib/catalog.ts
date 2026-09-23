@@ -2,7 +2,7 @@ import { cache } from 'react';
 
 const APPWRITE_ENDPOINT = 'https://sfo.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT_ID = '6a0b4638002a71c2b8ec';
-const APPWRITE_DATABASE_ID = '6a0b628900008b8506e3';
+export const APPWRITE_DATABASE_ID = '6a0b628900008b8506e3';
 
 export type SeriesRecord = {
   id: string;
@@ -60,7 +60,7 @@ function getCatalogApiKey() {
   );
 }
 
-async function appwriteFetch<T>(path: string): Promise<T> {
+export async function appwriteFetch<T>(path: string): Promise<T> {
   const apiKey = getCatalogApiKey();
   if (!apiKey) {
     throw new Error(
@@ -131,11 +131,11 @@ function asBook(row: AppwriteRow): BookRecord {
   };
 }
 
-function equalQuery(attribute: string, values: unknown[]) {
+export function equalQuery(attribute: string, values: unknown[]) {
   return JSON.stringify({ method: 'equal', attribute, values });
 }
 
-function limitQuery(limit: number) {
+export function limitQuery(limit: number) {
   return JSON.stringify({ method: 'limit', values: [limit] });
 }
 
@@ -221,6 +221,7 @@ export const getBookPageData = cache(async (requestedSlug: string) => {
   return {
     book,
     series,
+    seriesBooks,
     previousBook: index > 0 ? seriesBooks[index - 1] : null,
     nextBook:
       index >= 0 && index < seriesBooks.length - 1

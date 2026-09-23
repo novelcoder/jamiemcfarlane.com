@@ -4,6 +4,14 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, Headphones } from 'lucide-react';
 import { notFound, permanentRedirect } from 'next/navigation';
 
+import {
+  getSpaceshipAttributionContext,
+  purchaseUrlForBook,
+} from '@/lib/attribution';
+import {
+  ATTRIBUTION_QUERY_PARAM,
+  withAttribution,
+} from '@/lib/attribution-routing';
 import { getBookPageData } from '@/lib/catalog';
 
 import styles from './book.module.css';
@@ -12,6 +20,9 @@ const SITE_URL = 'https://www.jamiemcfarlane.com';
 
 type BookPageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 };
 
 function canonicalBookPath(slug: string) {
@@ -19,11 +30,15 @@ function canonicalBookPath(slug: string) {
 }
 
 function seriesPath(slug: string) {
-  return slug === 'privateer-tales' ? '/PrivateerTales' : '/';
+  if (slug === 'privateer-tales') return '/PrivateerTales';
+  if (slug === 'spaceship-mechanic') return '/SpaceshipMechanic';
+  return '/';
 }
 
 function seriesBooksPath(slug: string) {
-  return slug === 'privateer-tales' ? '/PrivateerTales/books' : '/';
+  if (slug === 'privateer-tales') return '/PrivateerTales/books';
+  if (slug === 'spaceship-mechanic') return '/SpaceshipMechanic';
+  return '/';
 }
 
 function bookPosition(seriesName: string, seriesNumber: number | null) {
@@ -95,14 +110,29 @@ export async function generateMetadata({
   };
 }
 
-export default async function BookPage({ params }: BookPageProps) {
+export default async function BookPage({
+  params,
+  searchParams,
+}: BookPageProps) {
   const { slug } = await params;
   const data = await getBookPageData(slug);
 
   if (!data) notFound();
 
-  const { book, series, previousBook, nextBook } = data;
-  if (slug !== book.slug) permanentRedirect(canonicalBookPath(book.slug));
+  const { book, series, seriesBooks, previousBook, nextBook } = data;
+  const query = await searchParams;
+  const attribution =
+    series.slug === 'spaceship-mechanic'
+      ? await getSpaceshipAttributionContext(
+          query[ATTRIBUTION_QUERY_PARAM],
+          seriesBooks,
+        )
+      : null;
+  const attributedPath = (path: string) =>
+    withAttribution(path, attribution?.sourceKey ?? null);
+  if (slug !== book.slug) {
+    permanentRedirect(attributedPath(canonicalBookPath(book.slug)));
+  }
 
   const canonicalUrl = `${SITE_URL}${canonicalBookPath(book.slug)}`;
   const paragraphs = book.blurb.split(/\n\s*\n/).filter(Boolean);
@@ -133,7 +163,10 @@ export default async function BookPage({ params }: BookPageProps) {
         <Link className={styles.wordmark} href="/">
           Jamie McFarlane
         </Link>
-        <Link className={styles.seriesLink} href={seriesPath(series.slug)}>
+        <Link
+          className={styles.seriesLink}
+          href={attributedPath(seriesPath(series.slug))}
+        >
           {series.name}
         </Link>
       </header>
@@ -153,7 +186,10 @@ export default async function BookPage({ params }: BookPageProps) {
         </div>
 
         <div className={styles.copy}>
-          <Link className={styles.backLink} href={seriesBooksPath(series.slug)}>
+          <Link
+            className={styles.backLink}
+            href={attributedPath(seriesBooksPath(series.slug))}
+          >
             <ArrowLeft aria-hidden="true" /> {series.name} reading order
           </Link>
           <p className={styles.eyebrow}>
@@ -179,7 +215,7 @@ export default async function BookPage({ params }: BookPageProps) {
             {book.store_url ? (
               <a
                 className={styles.primaryButton}
-                href={book.store_url}
+                href={purchaseUrlForBook(book, attribution)}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -203,7 +239,7 @@ export default async function BookPage({ params }: BookPageProps) {
 
       <nav className={styles.pagination} aria-label="Adjacent books">
         {previousBook ? (
-          <Link href={canonicalBookPath(previousBook.slug)}>
+          <Link href={attributedPath(canonicalBookPath(previousBook.slug))}>
             <ArrowLeft aria-hidden="true" />
             <span>
               Previous
@@ -214,7 +250,7 @@ export default async function BookPage({ params }: BookPageProps) {
           <span />
         )}
         {nextBook ? (
-          <Link href={canonicalBookPath(nextBook.slug)}>
+          <Link href={attributedPath(canonicalBookPath(nextBook.slug))}>
             <span>
               Next
               <strong>{nextBook.title}</strong>
@@ -230,7 +266,9 @@ export default async function BookPage({ params }: BookPageProps) {
         <Link className={styles.wordmark} href="/">
           Jamie McFarlane
         </Link>
-        <Link href={seriesPath(series.slug)}>Explore {series.name}</Link>
+        <Link href={attributedPath(seriesPath(series.slug))}>
+          Explore {series.name}
+        </Link>
       </footer>
 
       <script
