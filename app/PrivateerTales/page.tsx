@@ -70,16 +70,13 @@ export default async function PrivateerTalesPage() {
     <main className={styles.page}>
       <header className={styles.siteHeader}>
         <Link
-          className={styles.brand}
-          href="/PrivateerTales"
-          aria-label="Privateer Tales home"
+          className={`${styles.brand} ${styles.authorBrand}`}
+          href="/"
+          aria-label="Jamie McFarlane home"
         >
-          <span className={styles.brandMark} aria-hidden="true">
-            <Compass strokeWidth={1.25} />
-          </span>
           <span>
-            <strong>{series.name}</strong>
-            <small>{series.tagline}</small>
+            <strong>Jamie McFarlane</strong>
+            <small>Science fiction &amp; fantasy author</small>
           </span>
         </Link>
 
@@ -105,8 +102,13 @@ export default async function PrivateerTalesPage() {
 
       <section id="top" className={styles.hero}>
         <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}>The Privateer Tales</p>
-          <h1>Adventure has a different flag.</h1>
+          <div className={styles.seriesIdentity}>
+            <span className={styles.seriesMark} aria-hidden="true">
+              <Compass strokeWidth={1.25} />
+            </span>
+            <h1>{series.name}</h1>
+          </div>
+          <p className={styles.heroSlogan}>Adventure has a different flag.</p>
           <p className={styles.heroDescription}>{series.description}</p>
 
           {heroBook ? (
@@ -218,7 +220,10 @@ export default async function PrivateerTalesPage() {
       </section>
 
       <footer className={styles.siteFooter} id="news">
-        <Link className={`${styles.brand} ${styles.footerBrand}`} href="/">
+        <Link
+          className={`${styles.brand} ${styles.footerBrand}`}
+          href="/PrivateerTales"
+        >
           <span className={styles.brandMark} aria-hidden="true">
             <Compass strokeWidth={1.25} />
           </span>

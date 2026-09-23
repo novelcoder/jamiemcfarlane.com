@@ -90,6 +90,10 @@
   gap: 0.8rem;
 }
 
+.authorBrand strong {
+  letter-spacing: 0.04em;
+}
+
 .brandMark {
   display: grid;
   width: 3.5rem;
@@ -278,6 +282,29 @@
   max-width: 44rem;
 }
 
+.seriesIdentity {
+  display: flex;
+  max-width: 44rem;
+  align-items: flex-end;
+  gap: clamp(0.75rem, 1.4vw, 1.25rem);
+}
+
+.seriesMark {
+  display: grid;
+  width: clamp(3.6rem, 5vw, 5.4rem);
+  height: clamp(3.6rem, 5vw, 5.4rem);
+  flex: 0 0 auto;
+  margin-bottom: 0.2rem;
+  place-items: center;
+  color: #ff8b3e;
+  filter: drop-shadow(0 5px 18px rgba(0, 0, 0, 0.48));
+}
+
+.seriesMark svg {
+  width: 100%;
+  height: 100%;
+}
+
 .hero h1 {
   max-width: 42rem;
   color: var(--privateer-signal-bright);
@@ -285,6 +312,20 @@
   letter-spacing: -0.045em;
   line-height: 0.95;
   text-shadow: 0 5px 30px rgba(0, 0, 0, 0.55);
+}
+
+.heroSlogan {
+  max-width: 38rem;
+  margin: 0.85rem 0 0;
+  color: #f2f6fa;
+  font-family: var(--privateer-font-display);
+  font-size: clamp(1.35rem, 2.25vw, 2.35rem);
+  font-stretch: condensed;
+  font-weight: 850;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  text-shadow: 0 3px 20px rgba(0, 0, 0, 0.72);
+  text-transform: uppercase;
 }
 
 .heroDescription {
@@ -872,6 +913,16 @@
 
   .brand small {
     display: none;
+  }
+
+  .seriesIdentity {
+    align-items: center;
+  }
+
+  .seriesMark {
+    width: 3.2rem;
+    height: 3.2rem;
+    margin-bottom: 0;
   }
 
   .buttonSmall {
