@@ -1,17 +1,11 @@
-import {
-  ArrowRight,
-  BookOpen,
-  Globe2,
-  ListOrdered,
-  Rocket,
-  Users,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
+import { getSeriesLandingData } from '@/lib/catalog';
 
-const series = [
+const featuredSeries = [
   {
     name: 'Spaceship Mechanic',
     href: '/SpaceshipMechanic',
@@ -51,15 +45,18 @@ const series = [
   },
 ] as const;
 
-const comingSoon = [
-  { label: 'Complete catalog', icon: BookOpen },
-  { label: 'Reading orders', icon: ListOrdered },
-  { label: 'Ships & equipment', icon: Rocket },
-  { label: 'Characters', icon: Users },
-  { label: 'Maps & timelines', icon: Globe2 },
-] as const;
+export default async function Home() {
+  const scienceFictionSeries = await Promise.all([
+    getSeriesLandingData('oldest-starfighter'),
+    getSeriesLandingData('space-troopers'),
+    getSeriesLandingData('tinker-knight-adventures'),
+  ]);
+  const scienceFictionCovers = scienceFictionSeries
+    .map(
+      ({ books }) => books.find((book) => book.series_number === 1) ?? books[0],
+    )
+    .filter((book) => book !== undefined);
 
-export default function Home() {
   return (
     <main>
       <a className="skip-link" href="#worlds">
@@ -102,7 +99,7 @@ export default function Home() {
             className="cover-stage"
             aria-label="Featured Jamie McFarlane series"
           >
-            {series.map((item, index) => (
+            {featuredSeries.map((item, index) => (
               <a
                 className={`hero-cover hero-cover-${index + 1}`}
                 href={item.href}
@@ -129,7 +126,7 @@ export default function Home() {
           </div>
 
           <div className="world-grid">
-            {series.map((item) => (
+            {featuredSeries.map((item) => (
               <a
                 className={`world-card world-card-${item.className}`}
                 href={item.href}
@@ -154,24 +151,51 @@ export default function Home() {
               </a>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="coming-section" aria-labelledby="coming-title">
-        <div className="site-shell">
-          <div className="ornament-heading">
-            <span aria-hidden="true" />
-            <h2 id="coming-title">More of the universe is on the way</h2>
-            <span aria-hidden="true" />
-          </div>
+          <div className="supporting-worlds">
+            <p className="supporting-worlds-heading">More adventures</p>
+            <div className="supporting-worlds-grid">
+              <Link className="supporting-world-card" href="/WitchyWorld">
+                <span className="supporting-world-art supporting-world-art-witchy">
+                  <Image
+                    src="/images/witchy-world/witchy-world-hero.jpg"
+                    alt=""
+                    fill
+                    sizes="7rem"
+                  />
+                </span>
+                <span className="supporting-world-copy">
+                  <small>Dark urban fantasy</small>
+                  <strong>Witchy World</strong>
+                  <span>Witches, visions, and dangerous magic.</span>
+                </span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
 
-          <div className="coming-grid">
-            {comingSoon.map(({ label, icon: Icon }) => (
-              <div className="coming-item" key={label}>
-                <Icon aria-hidden="true" strokeWidth={1.25} />
-                <span>{label}</span>
-              </div>
-            ))}
+              <Link
+                className="supporting-world-card"
+                href="/ScienceFictionAdventures"
+              >
+                <span className="supporting-cover-strip" aria-hidden="true">
+                  {scienceFictionCovers.map((book) => (
+                    <span className="supporting-cover" key={book.id}>
+                      <Image
+                        src={book.cover_thumb_url || book.cover_url}
+                        alt=""
+                        fill
+                        sizes="2.6rem"
+                      />
+                    </span>
+                  ))}
+                </span>
+                <span className="supporting-world-copy">
+                  <small>Three series · Six books</small>
+                  <strong>Science Fiction Adventures</strong>
+                  <span>Old soldiers, space cadets, and alien wars.</span>
+                </span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>

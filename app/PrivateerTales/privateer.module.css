@@ -555,6 +555,90 @@
   text-align: center;
 }
 
+.afterwarSection {
+  display: grid;
+  max-width: 74rem;
+  grid-template-columns: minmax(14rem, 0.7fr) minmax(30rem, 1.3fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: center;
+  margin: 0 auto;
+  padding: 2rem clamp(1.5rem, 4vw, 3rem);
+  border-bottom: 1px solid rgba(165, 195, 214, 0.18);
+  background: #020d14;
+}
+
+.afterwarHeading {
+  min-width: 0;
+}
+
+.afterwarHeading h2 {
+  color: var(--privateer-steel);
+  font-size: clamp(1.9rem, 3.2vw, 3rem);
+  line-height: 1;
+}
+
+.afterwarHeading > p {
+  max-width: 25rem;
+  margin: 0.55rem 0 0;
+  color: #c8d3dc;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.afterwarGrid {
+  display: flex;
+  gap: 0.65rem;
+  justify-content: safe center;
+  overflow-x: auto;
+  padding: 0.15rem 0 0.65rem;
+  scroll-snap-type: x proximity;
+  scrollbar-color: rgba(255, 115, 47, 0.55) rgba(165, 195, 214, 0.08);
+}
+
+.afterwarCard {
+  display: block;
+  width: 6.7rem;
+  min-width: 6.7rem;
+  flex: 0 0 6.7rem;
+  overflow: hidden;
+  border: 1px solid rgba(165, 195, 214, 0.13);
+  background: rgba(6, 24, 37, 0.55);
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+  scroll-snap-align: start;
+}
+
+.afterwarCard:hover,
+.afterwarCard:focus-visible {
+  border-color: var(--privateer-signal-bright);
+  transform: translateY(-2px);
+}
+
+.afterwarCover {
+  display: flex;
+  flex-direction: column;
+  background: rgba(1, 9, 14, 0.8);
+}
+
+.afterwarCover img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+}
+
+.afterwarCover small {
+  padding: 0.28rem 0.15rem;
+  color: #91a3b0;
+  font-family: var(--privateer-font-mono);
+  font-size: 0.48rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .discoveryGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -971,6 +1055,11 @@
   .heroManifesto,
   .heroReview {
     width: min(100%, 31rem);
+  }
+
+  .afterwarSection {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .heroManifesto {

@@ -570,6 +570,143 @@ img {
   color: #9ddced;
 }
 
+.supporting-worlds {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(122, 191, 216, 0.16);
+}
+
+.supporting-worlds-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 0.7rem;
+  color: #6bb8d1;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.supporting-worlds-heading::after {
+  height: 1px;
+  flex: 1;
+  background: rgba(122, 191, 216, 0.16);
+  content: '';
+}
+
+.supporting-worlds-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.supporting-world-card {
+  display: grid;
+  min-width: 0;
+  min-height: 6.2rem;
+  overflow: hidden;
+  grid-template-columns: 6.75rem minmax(0, 1fr) auto;
+  align-items: center;
+  border: 1px solid rgba(122, 191, 216, 0.16);
+  background: rgba(6, 23, 37, 0.8);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.supporting-world-card:hover,
+.supporting-world-card:focus-visible {
+  border-color: rgba(255, 194, 82, 0.6);
+  transform: translateY(-2px);
+}
+
+.supporting-world-art,
+.supporting-cover-strip {
+  position: relative;
+  display: flex;
+  align-self: stretch;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  background: #071d2c;
+}
+
+.supporting-world-art img {
+  object-fit: cover;
+}
+
+.supporting-world-art-witchy img {
+  object-position: 58% 16%;
+  filter: saturate(0.72) brightness(0.72);
+}
+
+.supporting-cover-strip {
+  gap: 0.2rem;
+  padding: 0.55rem 0.45rem;
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      rgba(45, 116, 151, 0.3),
+      transparent 65%
+    ),
+    #061522;
+}
+
+.supporting-cover {
+  position: relative;
+  width: 1.82rem;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border: 1px solid rgba(208, 230, 238, 0.22);
+  box-shadow: 0 0.35rem 0.8rem rgba(0, 0, 0, 0.42);
+}
+
+.supporting-cover img {
+  object-fit: cover;
+}
+
+.supporting-world-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 0.65rem 0.8rem;
+}
+
+.supporting-world-copy small {
+  margin-bottom: 0.15rem;
+  color: #6bb8d1;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.supporting-world-copy strong {
+  overflow: hidden;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  font-weight: 500;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.supporting-world-copy > span {
+  overflow: hidden;
+  margin-top: 0.18rem;
+  color: var(--muted);
+  font-size: 0.68rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.supporting-world-card > svg {
+  width: 0.95rem;
+  margin-right: 0.8rem;
+  color: #8dccdf;
+}
+
 .coming-section {
   padding: 2.3rem 0 2.55rem;
   border-bottom: 1px solid var(--line);
@@ -911,6 +1048,10 @@ a:focus-visible {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  .supporting-worlds-grid {
+    grid-template-columns: 1fr;
+  }
+
   .section-heading {
     flex-wrap: wrap;
   }
@@ -1024,6 +1165,15 @@ a:focus-visible {
 
   .world-art {
     height: 11rem;
+  }
+
+  .supporting-world-card {
+    min-height: 5.8rem;
+    grid-template-columns: 5.8rem minmax(0, 1fr) auto;
+  }
+
+  .supporting-world-copy > span {
+    display: none;
   }
 
   .coming-grid {
