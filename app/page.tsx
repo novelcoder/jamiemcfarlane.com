@@ -1,9 +1,16 @@
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
+import { SiteFooter } from '@/components/site-footer';
+import { SiteHeader } from '@/components/site-header';
 import { getSeriesLandingData } from '@/lib/catalog';
+import {
+  blogImagePath,
+  formatPostDate,
+  getPublishedPosts,
+  postUrl,
+} from '@/lib/posts';
 
 const featuredSeries = [
   {
@@ -46,10 +53,13 @@ const featuredSeries = [
 ] as const;
 
 export default async function Home() {
-  const scienceFictionSeries = await Promise.all([
-    getSeriesLandingData('oldest-starfighter'),
-    getSeriesLandingData('space-troopers'),
-    getSeriesLandingData('tinker-knight-adventures'),
+  const [scienceFictionSeries, latestNews] = await Promise.all([
+    Promise.all([
+      getSeriesLandingData('oldest-starfighter'),
+      getSeriesLandingData('space-troopers'),
+      getSeriesLandingData('tinker-knight-adventures'),
+    ]),
+    getPublishedPosts({ limit: 3 }),
   ]);
   const scienceFictionCovers = scienceFictionSeries
     .map(
@@ -63,17 +73,7 @@ export default async function Home() {
         Skip to featured worlds
       </a>
 
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Jamie McFarlane home">
-          Jamie McFarlane
-        </a>
-        <nav aria-label="Primary navigation">
-          <a href="#worlds">Books</a>
-          <a className="nav-highlight" href="#free-books">
-            Free Books
-          </a>
-        </nav>
-      </header>
+      <SiteHeader overlay />
 
       <section className="hero" id="top">
         <div className="hero-backdrop" aria-hidden="true" />
@@ -200,6 +200,64 @@ export default async function Home() {
         </div>
       </section>
 
+      {latestNews.posts.length > 0 ? (
+        <section
+          className="latest-news-section"
+          aria-labelledby="latest-news-heading"
+        >
+          <div className="site-shell">
+            <div className="section-heading latest-news-heading">
+              <div>
+                <p className="section-kicker">From Jamie&apos;s desk</p>
+                <h2 id="latest-news-heading">Latest news</h2>
+              </div>
+              <Link className="all-news-link" href="/news">
+                All News <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="latest-news-grid">
+              {latestNews.posts.map((post, index) => (
+                <article
+                  className={`latest-news-card${index === 0 ? ' latest-news-card-featured' : ''}`}
+                  key={post.id}
+                >
+                  {post.hero_image_id ? (
+                    <Link
+                      className="latest-news-art"
+                      href={postUrl(post.slug)}
+                      tabIndex={-1}
+                    >
+                      <Image
+                        src={blogImagePath(post.hero_image_id)}
+                        alt={post.hero_image_alt}
+                        fill
+                        sizes={
+                          index === 0
+                            ? '(max-width: 900px) 100vw, 55vw'
+                            : '(max-width: 900px) 100vw, 28vw'
+                        }
+                      />
+                    </Link>
+                  ) : null}
+                  <div className="latest-news-copy">
+                    <p>
+                      {post.category ? <span>{post.category}</span> : null}
+                      <time dateTime={post.published_at}>
+                        {formatPostDate(post.published_at)}
+                      </time>
+                    </p>
+                    <h3>
+                      <Link href={postUrl(post.slug)}>{post.title}</Link>
+                    </h3>
+                    <span className="latest-news-excerpt">{post.excerpt}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="author-banner">
         <div className="author-banner-backdrop" aria-hidden="true" />
         <div className="author-grid site-shell">
@@ -221,14 +279,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <footer className="site-footer site-shell">
-        <span className="wordmark">Jamie McFarlane</span>
-        <div className="footer-links">
-          <p>A new reader home is taking shape.</p>
-          <Link href="/privacy">Privacy &amp; cookies</Link>
-          <CookieSettingsButton />
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
