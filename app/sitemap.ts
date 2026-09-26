@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { getPublishedBooks } from '@/lib/catalog';
+import { getAllPublishedPosts } from '@/lib/posts';
 
 const siteUrl = 'https://www.jamiemcfarlane.com';
 
@@ -12,13 +13,24 @@ function lastModified(value: string) {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const books = await getPublishedBooks();
+  const [books, posts] = await Promise.all([
+    getPublishedBooks(),
+    getAllPublishedPosts(),
+  ]);
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: siteUrl,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1,
+    },
+    {
+      url: `${siteUrl}/news`,
+      lastModified: posts[0]
+        ? lastModified(posts[0].updated_at || posts[0].published_at)
+        : new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
     },
     {
       url: `${siteUrl}/PrivateerTales`,
@@ -83,6 +95,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: lastModified(book.updated_at || book.release_date),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
+    })),
+    ...posts.map((post) => ({
+      url: `${siteUrl}/news/${encodeURIComponent(post.slug)}`,
+      lastModified: lastModified(post.updated_at || post.published_at),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
     })),
   ];
 }
