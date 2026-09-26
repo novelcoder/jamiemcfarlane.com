@@ -63,7 +63,11 @@ export const metadata: Metadata = {
 };
 
 export default async function PrivateerTalesPage() {
-  const { series, books } = await getSeriesLandingData('privateer-tales');
+  const [privateerTales, afterwarSaga] = await Promise.all([
+    getSeriesLandingData('privateer-tales'),
+    getSeriesLandingData('afterwar-saga'),
+  ]);
+  const { series, books } = privateerTales;
   const heroBook = books.find((book) => book.series_number === 1) ?? books[0];
 
   return (
@@ -182,6 +186,40 @@ export default async function PrivateerTalesPage() {
         </div>
 
         <PrivateerBookCarousel books={books} />
+      </section>
+
+      <section className={styles.afterwarSection} id="afterwar">
+        <div className={styles.afterwarHeading}>
+          <div>
+            <h2>{afterwarSaga.series.name}</h2>
+          </div>
+          <p>
+            A next-generation trilogy set twenty years later, following Quinn
+            and Olivia Hoffen.
+          </p>
+        </div>
+
+        <div className={styles.afterwarGrid}>
+          {afterwarSaga.books.map((book) => (
+            <Link
+              className={styles.afterwarCard}
+              href={`/books/${encodeURIComponent(book.slug)}`}
+              key={book.id}
+              aria-label={`Open ${book.title}, Afterwar Saga Book ${book.series_number}`}
+            >
+              <span className={styles.afterwarCover}>
+                <Image
+                  src={book.cover_thumb_url || book.cover_url}
+                  alt={book.cover_alt}
+                  width={600}
+                  height={900}
+                  sizes="6.7rem"
+                />
+                <small>Book {book.series_number}</small>
+              </span>
+            </Link>
+          ))}
+        </div>
       </section>
 
       <section
