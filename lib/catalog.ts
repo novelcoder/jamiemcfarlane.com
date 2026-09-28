@@ -60,7 +60,10 @@ function getCatalogApiKey() {
   );
 }
 
-export async function appwriteFetch<T>(path: string): Promise<T> {
+export async function appwriteFetch<T>(
+  path: string,
+  init: RequestInit = {},
+): Promise<T> {
   const apiKey = getCatalogApiKey();
   if (!apiKey) {
     throw new Error(
@@ -68,11 +71,14 @@ export async function appwriteFetch<T>(path: string): Promise<T> {
     );
   }
 
+  const headers = new Headers(init.headers);
+  if (init.body) headers.set('Content-Type', 'application/json');
+  headers.set('X-Appwrite-Project', APPWRITE_PROJECT_ID);
+  headers.set('X-Appwrite-Key', apiKey);
+
   const response = await fetch(`${APPWRITE_ENDPOINT}${path}`, {
-    headers: {
-      'X-Appwrite-Project': APPWRITE_PROJECT_ID,
-      'X-Appwrite-Key': apiKey,
-    },
+    ...init,
+    headers,
     cache: 'no-store',
   });
 

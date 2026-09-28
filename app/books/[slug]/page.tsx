@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, Headphones } from 'lucide-react';
 import { notFound, permanentRedirect } from 'next/navigation';
 
+import { TrackedAmazonLink } from '@/components/tracked-links';
 import {
   getSpaceshipAttributionContext,
   purchaseUrlForBook,
@@ -202,15 +203,25 @@ export default async function BookPage({
 
           <div className={styles.actions}>
             {book.store_url ? (
-              <a
+              <TrackedAmazonLink
                 className={styles.primaryButton}
                 href={purchaseUrlForBook(book, attribution)}
                 target="_blank"
                 rel="noopener noreferrer"
+                tracking={{
+                  seriesSlug: series.slug,
+                  sourceKey: attribution?.sourceKey,
+                  bookSlug: book.slug,
+                  seriesNumber: book.series_number,
+                  placement: 'book_detail',
+                  linkType: attribution?.purchaseUrls[book.slug]
+                    ? 'amazon_attribution'
+                    : 'public_store',
+                }}
               >
                 <BookOpen aria-hidden="true" />
                 {book.store_label || 'Buy the book'}
-              </a>
+              </TrackedAmazonLink>
             ) : null}
             {book.audible_url ? (
               <a

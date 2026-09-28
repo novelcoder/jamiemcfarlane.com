@@ -5,6 +5,8 @@ import { ArrowRight } from 'lucide-react';
 
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
+import { PaidLandingMeasurement } from '@/components/paid-landing-measurement';
+import { TrackedAmazonLink, TrackedBookLink } from '@/components/tracked-links';
 import {
   getSpaceshipAttributionContext,
   purchaseUrlForBook,
@@ -80,6 +82,7 @@ export default async function SpaceshipMechanicPage({
 
   return (
     <main className={styles.page}>
+      <PaidLandingMeasurement sourceKey={attribution?.sourceKey ?? null} />
       <a className={styles.skipLink} href="#books">
         Skip to the books
       </a>
@@ -100,15 +103,22 @@ export default async function SpaceshipMechanicPage({
           </Link>
         </nav>
         {startBook ? (
-          <Link
+          <TrackedBookLink
             className={styles.headerButton}
             href={withAttribution(
               bookPath(startBook),
               attribution?.sourceKey ?? null,
             )}
+            tracking={{
+              seriesSlug: 'spaceship-mechanic',
+              sourceKey: attribution?.sourceKey,
+              bookSlug: startBook.slug,
+              seriesNumber: startBook.series_number,
+              placement: 'header',
+            }}
           >
             Start the series
-          </Link>
+          </TrackedBookLink>
         ) : null}
       </header>
 
@@ -130,13 +140,23 @@ export default async function SpaceshipMechanicPage({
                   <strong>{upcomingBook.title}</strong>
                 </div>
                 {upcomingBook.store_url ? (
-                  <a
+                  <TrackedAmazonLink
                     href={purchaseUrlForBook(upcomingBook, attribution)}
                     target="_blank"
                     rel="noreferrer"
+                    tracking={{
+                      seriesSlug: 'spaceship-mechanic',
+                      sourceKey: attribution?.sourceKey,
+                      bookSlug: upcomingBook.slug,
+                      seriesNumber: upcomingBook.series_number,
+                      placement: 'release_notice',
+                      linkType: attribution?.purchaseUrls[upcomingBook.slug]
+                        ? 'amazon_attribution'
+                        : 'public_store',
+                    }}
                   >
                     Preorder <ArrowRight aria-hidden="true" />
-                  </a>
+                  </TrackedAmazonLink>
                 ) : null}
               </div>
             ) : null}
