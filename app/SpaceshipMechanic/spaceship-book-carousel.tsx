@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 
+import { TrackedAmazonLink, TrackedBookLink } from '@/components/tracked-links';
 import {
   Carousel,
   CarouselContent,
@@ -11,10 +11,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel';
 import type { AttributionContext } from '@/lib/attribution';
-import {
-  selectPurchaseUrl,
-  withAttribution,
-} from '@/lib/attribution-routing';
+import { selectPurchaseUrl, withAttribution } from '@/lib/attribution-routing';
 import type { BookRecord } from '@/lib/catalog';
 
 import styles from './spaceship-mechanic.module.css';
@@ -60,30 +57,45 @@ export function SpaceshipBookCarousel({
             <CarouselItem className={styles.bookSlide} key={book.id}>
               <article className={styles.thumbnailCard}>
                 {book.status === 'published' ? (
-                  <Link
+                  <TrackedBookLink
                     href={withAttribution(
                       `/books/${encodeURIComponent(book.slug)}`,
                       attribution?.sourceKey ?? null,
                     )}
-                    aria-label={`${book.title}, ${bookNumber(book)}`}
+                    ariaLabel={`${book.title}, ${bookNumber(book)}`}
+                    tracking={{
+                      seriesSlug: 'spaceship-mechanic',
+                      sourceKey: attribution?.sourceKey,
+                      bookSlug: book.slug,
+                      seriesNumber: book.series_number,
+                      placement: 'book_carousel',
+                    }}
                   >
                     {cover}
-                  </Link>
+                  </TrackedBookLink>
                 ) : book.store_url ? (
-                  <a
-                    href={
-                      selectPurchaseUrl({
-                        publicStoreUrl: book.store_url,
-                        attributionUrl: attribution?.purchaseUrls[book.slug],
-                        expectedAsin: book.kindle_asin,
-                      })
-                    }
+                  <TrackedAmazonLink
+                    href={selectPurchaseUrl({
+                      publicStoreUrl: book.store_url,
+                      attributionUrl: attribution?.purchaseUrls[book.slug],
+                      expectedAsin: book.kindle_asin,
+                    })}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`${book.title}, ${bookNumber(book)}, preorder`}
+                    tracking={{
+                      seriesSlug: 'spaceship-mechanic',
+                      sourceKey: attribution?.sourceKey,
+                      bookSlug: book.slug,
+                      seriesNumber: book.series_number,
+                      placement: 'book_carousel',
+                      linkType: attribution?.purchaseUrls[book.slug]
+                        ? 'amazon_attribution'
+                        : 'public_store',
+                    }}
                   >
                     {cover}
-                  </a>
+                  </TrackedAmazonLink>
                 ) : (
                   <div>{cover}</div>
                 )}

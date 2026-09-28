@@ -27,6 +27,14 @@ export default function PrivacyPage() {
           pages viewed, approximate location, device type, and referral source.
           Google Signals and advertising personalization are disabled.
         </p>
+        <h2>Paid landing measurement</h2>
+        <p>
+          When an advertising link uses one of our approved source codes, the
+          site records an anonymous landing count even if optional analytics is
+          declined. This record contains only the date, the landing page, and
+          the approved source code. It does not contain a cookie, visitor ID, IP
+          address, device information, Google click ID, or the complete URL.
+        </p>
         <h2>Your choice</h2>
         <p>
           Your analytics preference lasts for six months. You can change it at

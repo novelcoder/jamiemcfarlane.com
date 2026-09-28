@@ -12,7 +12,8 @@
     "test": "node --experimental-strip-types --test tests/*.test.ts",
     "lint": "oxlint",
     "format": "oxfmt",
-    "setup:attribution": "node scripts/setup-attribution-routing.mjs"
+    "setup:attribution": "node scripts/setup-attribution-routing.mjs",
+    "setup:paid-landing-views": "node scripts/setup-paid-landing-views.mjs"
   },
   "dependencies": {
     "@base-ui/react": "1.7.0",

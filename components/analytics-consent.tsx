@@ -4,10 +4,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
+import {
+  type AnalyticsEventContext,
+  type AnalyticsEventName,
+  buildAnalyticsEvent,
+} from '@/lib/analytics-events';
+
 const CONSENT_COOKIE_NAME = 'jm_analytics_consent';
 const CONSENT_COOKIE_VERSION = 'v1';
 const CONSENT_COOKIE_MAX_AGE = 60 * 60 * 24 * 180;
-const CONSENT_CHANGED_EVENT = 'jamie-mcfarlane:analytics-consent-changed';
+export const ANALYTICS_CONSENT_CHANGED_EVENT =
+  'jamie-mcfarlane:analytics-consent-changed';
 const OPEN_SETTINGS_EVENT = 'jamie-mcfarlane:open-cookie-settings';
 const GOOGLE_SCRIPT_ID = 'jamie-mcfarlane-google-analytics';
 
@@ -40,8 +47,9 @@ function readConsentCookie(): ConsentChoice | null {
 }
 
 function subscribeToConsent(onStoreChange: () => void) {
-  window.addEventListener(CONSENT_CHANGED_EVENT, onStoreChange);
-  return () => window.removeEventListener(CONSENT_CHANGED_EVENT, onStoreChange);
+  window.addEventListener(ANALYTICS_CONSENT_CHANGED_EVENT, onStoreChange);
+  return () =>
+    window.removeEventListener(ANALYTICS_CONSENT_CHANGED_EVENT, onStoreChange);
 }
 
 function getConsentSnapshot(): ConsentSnapshot {
@@ -154,6 +162,23 @@ export function trackNewsletterSignupSuccess() {
   });
 }
 
+export function trackAnalyticsEvent(
+  eventName: AnalyticsEventName,
+  context: AnalyticsEventContext,
+) {
+  const measurementId = getMeasurementId();
+  if (!measurementId || readConsentCookie() !== 'granted') return false;
+
+  const event = buildAnalyticsEvent(eventName, context);
+  if (!event) return false;
+
+  getGtag()('event', event.eventName, {
+    send_to: measurementId,
+    ...event.parameters,
+  });
+  return true;
+}
+
 export function CookieSettingsButton({ className }: { className?: string }) {
   if (!getMeasurementId()) return null;
 
@@ -210,7 +235,7 @@ export function AnalyticsConsent() {
 
   const saveChoice = (nextChoice: ConsentChoice) => {
     writeConsentCookie(nextChoice);
-    window.dispatchEvent(new Event(CONSENT_CHANGED_EVENT));
+    window.dispatchEvent(new Event(ANALYTICS_CONSENT_CHANGED_EVENT));
     setSettingsAreOpen(false);
   };
 
