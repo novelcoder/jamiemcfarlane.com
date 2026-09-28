@@ -1,0 +1,150 @@
+.page {
+  min-height: 100vh;
+  background: var(--ink);
+}
+
+.header {
+  padding: clamp(3.5rem, 8vw, 6.5rem) 0 clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(
+      circle at 72% 15%,
+      rgba(41, 214, 228, 0.11),
+      transparent 32rem
+    ),
+    linear-gradient(180deg, #071725, var(--ink));
+}
+
+.headerInner {
+  max-width: 56rem;
+}
+
+.back,
+.category {
+  color: var(--cyan);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 1.6rem;
+}
+
+.category {
+  margin: 0 0 0.65rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2.8rem, 7vw, 5.8rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.byline {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+}
+
+.heroImage {
+  margin-top: clamp(2rem, 5vw, 4rem);
+}
+
+.heroImage > div {
+  position: relative;
+  aspect-ratio: 16 / 8;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 0.35rem;
+  background: var(--ink-soft);
+}
+
+.heroImage img {
+  object-fit: cover;
+}
+
+.heroImage figcaption {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+.content {
+  max-width: 50rem;
+  padding-top: clamp(2.5rem, 6vw, 4.5rem);
+  padding-bottom: clamp(4rem, 9vw, 8rem);
+  color: #dce7ea;
+  font-family: var(--serif);
+  font-size: clamp(1.08rem, 1.6vw, 1.22rem);
+  line-height: 1.82;
+}
+
+.content > :first-child {
+  margin-top: 0;
+}
+
+.content h2,
+.content h3,
+.content h4 {
+  margin: 2.2em 0 0.75em;
+  color: var(--text);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.content h2 {
+  font-size: 2rem;
+}
+
+.content h3 {
+  font-size: 1.55rem;
+}
+
+.content a {
+  color: var(--gold-bright);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 194, 82, 0.48);
+  text-underline-offset: 0.2em;
+}
+
+.content img {
+  width: auto;
+  max-height: 44rem;
+  margin: 2rem auto;
+  border-radius: 0.25rem;
+}
+
+.content blockquote {
+  margin: 2rem 0;
+  padding: 0.3rem 0 0.3rem 1.5rem;
+  border-left: 3px solid var(--gold);
+  color: #f0e0bd;
+  font-style: italic;
+}
+
+.content iframe {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  margin: 2rem 0;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .heroImage {
+    width: 100%;
+  }
+
+  .heroImage > div {
+    border-inline: 0;
+    border-radius: 0;
+  }
+}

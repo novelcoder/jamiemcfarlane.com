@@ -1,17 +1,18 @@
-import {
-  ArrowRight,
-  BookOpen,
-  Globe2,
-  ListOrdered,
-  Rocket,
-  Users,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
+import { SiteFooter } from '@/components/site-footer';
+import { SiteHeader } from '@/components/site-header';
+import { getSeriesLandingData } from '@/lib/catalog';
+import {
+  blogImagePath,
+  formatPostDate,
+  getPublishedPosts,
+  postUrl,
+} from '@/lib/posts';
 
-const series = [
+const featuredSeries = [
   {
     name: 'Spaceship Mechanic',
     href: '/SpaceshipMechanic',
@@ -51,32 +52,28 @@ const series = [
   },
 ] as const;
 
-const comingSoon = [
-  { label: 'Complete catalog', icon: BookOpen },
-  { label: 'Reading orders', icon: ListOrdered },
-  { label: 'Ships & equipment', icon: Rocket },
-  { label: 'Characters', icon: Users },
-  { label: 'Maps & timelines', icon: Globe2 },
-] as const;
+export default async function Home() {
+  const [scienceFictionSeries, latestNews] = await Promise.all([
+    Promise.all([
+      getSeriesLandingData('oldest-starfighter'),
+      getSeriesLandingData('space-troopers'),
+      getSeriesLandingData('tinker-knight-adventures'),
+    ]),
+    getPublishedPosts({ limit: 3 }),
+  ]);
+  const scienceFictionCovers = scienceFictionSeries
+    .map(
+      ({ books }) => books.find((book) => book.series_number === 1) ?? books[0],
+    )
+    .filter((book) => book !== undefined);
 
-export default function Home() {
   return (
     <main>
       <a className="skip-link" href="#worlds">
         Skip to featured worlds
       </a>
 
-      <header className="site-header">
-        <a className="wordmark" href="#top" aria-label="Jamie McFarlane home">
-          Jamie McFarlane
-        </a>
-        <nav aria-label="Primary navigation">
-          <a href="#worlds">Books</a>
-          <a className="nav-highlight" href="#free-books">
-            Free Books
-          </a>
-        </nav>
-      </header>
+      <SiteHeader overlay />
 
       <section className="hero" id="top">
         <div className="hero-backdrop" aria-hidden="true" />
@@ -102,7 +99,7 @@ export default function Home() {
             className="cover-stage"
             aria-label="Featured Jamie McFarlane series"
           >
-            {series.map((item, index) => (
+            {featuredSeries.map((item, index) => (
               <a
                 className={`hero-cover hero-cover-${index + 1}`}
                 href={item.href}
@@ -129,7 +126,7 @@ export default function Home() {
           </div>
 
           <div className="world-grid">
-            {series.map((item) => (
+            {featuredSeries.map((item) => (
               <a
                 className={`world-card world-card-${item.className}`}
                 href={item.href}
@@ -154,27 +151,112 @@ export default function Home() {
               </a>
             ))}
           </div>
+
+          <div className="supporting-worlds">
+            <p className="supporting-worlds-heading">More adventures</p>
+            <div className="supporting-worlds-grid">
+              <Link className="supporting-world-card" href="/WitchyWorld">
+                <span className="supporting-world-art supporting-world-art-witchy">
+                  <Image
+                    src="/images/witchy-world/witchy-world-hero.jpg"
+                    alt=""
+                    fill
+                    sizes="7rem"
+                  />
+                </span>
+                <span className="supporting-world-copy">
+                  <small>Dark urban fantasy</small>
+                  <strong>Witchy World</strong>
+                  <span>Witches, visions, and dangerous magic.</span>
+                </span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
+
+              <Link
+                className="supporting-world-card"
+                href="/ScienceFictionAdventures"
+              >
+                <span className="supporting-cover-strip" aria-hidden="true">
+                  {scienceFictionCovers.map((book) => (
+                    <span className="supporting-cover" key={book.id}>
+                      <Image
+                        src={book.cover_thumb_url || book.cover_url}
+                        alt=""
+                        fill
+                        sizes="2.6rem"
+                      />
+                    </span>
+                  ))}
+                </span>
+                <span className="supporting-world-copy">
+                  <small>Three series · Six books</small>
+                  <strong>Science Fiction Adventures</strong>
+                  <span>Old soldiers, space cadets, and alien wars.</span>
+                </span>
+                <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="coming-section" aria-labelledby="coming-title">
-        <div className="site-shell">
-          <div className="ornament-heading">
-            <span aria-hidden="true" />
-            <h2 id="coming-title">More of the universe is on the way</h2>
-            <span aria-hidden="true" />
-          </div>
-
-          <div className="coming-grid">
-            {comingSoon.map(({ label, icon: Icon }) => (
-              <div className="coming-item" key={label}>
-                <Icon aria-hidden="true" strokeWidth={1.25} />
-                <span>{label}</span>
+      {latestNews.posts.length > 0 ? (
+        <section
+          className="latest-news-section"
+          aria-labelledby="latest-news-heading"
+        >
+          <div className="site-shell">
+            <div className="section-heading latest-news-heading">
+              <div>
+                <p className="section-kicker">From Jamie&apos;s desk</p>
+                <h2 id="latest-news-heading">Latest news</h2>
               </div>
-            ))}
+              <Link className="all-news-link" href="/news">
+                All News <ArrowRight aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="latest-news-grid">
+              {latestNews.posts.map((post, index) => (
+                <article
+                  className={`latest-news-card${index === 0 ? ' latest-news-card-featured' : ''}`}
+                  key={post.id}
+                >
+                  {post.hero_image_id ? (
+                    <Link
+                      className="latest-news-art"
+                      href={postUrl(post.slug)}
+                      tabIndex={-1}
+                    >
+                      <Image
+                        src={blogImagePath(post.hero_image_id)}
+                        alt={post.hero_image_alt}
+                        fill
+                        sizes={
+                          index === 0
+                            ? '(max-width: 900px) 100vw, 55vw'
+                            : '(max-width: 900px) 100vw, 28vw'
+                        }
+                      />
+                    </Link>
+                  ) : null}
+                  <div className="latest-news-copy">
+                    <p>
+                      {post.category ? <span>{post.category}</span> : null}
+                      <time dateTime={post.published_at}>
+                        {formatPostDate(post.published_at)}
+                      </time>
+                    </p>
+                    <h3>
+                      <Link href={postUrl(post.slug)}>{post.title}</Link>
+                    </h3>
+                    <span className="latest-news-excerpt">{post.excerpt}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       <section className="author-banner">
         <div className="author-banner-backdrop" aria-hidden="true" />
@@ -197,14 +279,7 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="site-footer site-shell">
-        <span className="wordmark">Jamie McFarlane</span>
-        <div className="footer-links">
-          <p>Books, worlds, and reader news from Jamie McFarlane.</p>
-          <Link href="/privacy">Privacy &amp; cookies</Link>
-          <CookieSettingsButton />
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

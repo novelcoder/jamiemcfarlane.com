@@ -13,6 +13,7 @@ import {
   withAttribution,
 } from '@/lib/attribution-routing';
 import { getBookPageData } from '@/lib/catalog';
+import { seriesLandingPath, seriesReadingOrderPath } from '@/lib/series-routes';
 
 import styles from './book.module.css';
 
@@ -27,18 +28,6 @@ type BookPageProps = {
 
 function canonicalBookPath(slug: string) {
   return `/books/${encodeURIComponent(slug)}`;
-}
-
-function seriesPath(slug: string) {
-  if (slug === 'privateer-tales') return '/PrivateerTales';
-  if (slug === 'spaceship-mechanic') return '/SpaceshipMechanic';
-  return '/';
-}
-
-function seriesBooksPath(slug: string) {
-  if (slug === 'privateer-tales') return '/PrivateerTales/books';
-  if (slug === 'spaceship-mechanic') return '/SpaceshipMechanic';
-  return '/';
 }
 
 function bookPosition(seriesName: string, seriesNumber: number | null) {
@@ -152,7 +141,7 @@ export default async function BookPage({
     isPartOf: {
       '@type': 'CreativeWorkSeries',
       name: series.name,
-      url: `${SITE_URL}${seriesPath(series.slug)}`,
+      url: `${SITE_URL}${seriesLandingPath(series.slug)}`,
     },
     sameAs: book.store_url || undefined,
   };
@@ -165,7 +154,7 @@ export default async function BookPage({
         </Link>
         <Link
           className={styles.seriesLink}
-          href={attributedPath(seriesPath(series.slug))}
+          href={attributedPath(seriesLandingPath(series.slug))}
         >
           {series.name}
         </Link>
@@ -188,7 +177,7 @@ export default async function BookPage({
         <div className={styles.copy}>
           <Link
             className={styles.backLink}
-            href={attributedPath(seriesBooksPath(series.slug))}
+            href={attributedPath(seriesReadingOrderPath(series.slug))}
           >
             <ArrowLeft aria-hidden="true" /> {series.name} reading order
           </Link>
@@ -266,7 +255,7 @@ export default async function BookPage({
         <Link className={styles.wordmark} href="/">
           Jamie McFarlane
         </Link>
-        <Link href={attributedPath(seriesPath(series.slug))}>
+        <Link href={attributedPath(seriesLandingPath(series.slug))}>
           Explore {series.name}
         </Link>
       </footer>

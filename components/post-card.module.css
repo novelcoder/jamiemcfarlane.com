@@ -1,0 +1,108 @@
+.card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(134, 205, 232, 0.24);
+  border-radius: 0.35rem;
+  background: linear-gradient(145deg, rgba(8, 29, 44, 0.96), #03101b);
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.18);
+}
+
+.image,
+.textOnly {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(134, 205, 232, 0.22);
+  background: #071725;
+}
+
+.image img {
+  object-fit: cover;
+  transition: transform 250ms ease;
+}
+
+.card:hover .image img {
+  transform: scale(1.025);
+}
+
+.textOnly {
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, rgba(41, 214, 228, 0.12), transparent 50%),
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(255, 194, 82, 0.18),
+      transparent 45%
+    ),
+    #071725;
+  color: var(--gold-bright);
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.35rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.8rem;
+  margin: 0 0 0.7rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.meta span {
+  color: var(--cyan);
+}
+
+.body h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 500;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.excerpt {
+  display: -webkit-box;
+  margin: 0.9rem 0 1.2rem;
+  overflow: hidden;
+  color: #bed0d8;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.readMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  color: var(--gold-bright);
+  font-weight: 800;
+}
+
+.readMore svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 180ms ease;
+}
+
+.readMore:hover svg,
+.readMore:focus-visible svg {
+  transform: translateX(0.2rem);
+}
