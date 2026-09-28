@@ -80,14 +80,14 @@ export default async function Home() {
         <div className="hero-grid site-shell">
           <div className="hero-copy">
             <p className="status-pill">
-              <span aria-hidden="true" /> New site · Now taking shape
+              <span aria-hidden="true" /> Science fiction · Fantasy · Adventure
             </p>
             <h1>
               Your next adventure <em>starts here.</em>
             </h1>
             <p className="hero-description">
-              Jamie McFarlane&apos;s books, worlds, reading orders, and
-              behind-the-scenes material are getting a new home.
+              Explore Jamie McFarlane&apos;s books and worlds, discover your
+              next series, and start reading with a free starter library.
             </p>
             <NewsletterSignup anchorId="free-books" />
             <p className="signup-note">
