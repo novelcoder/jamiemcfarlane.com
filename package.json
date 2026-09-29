@@ -13,6 +13,7 @@
     "lint": "oxlint",
     "format": "oxfmt",
     "setup:attribution": "node scripts/setup-attribution-routing.mjs",
+    "setup:newsletter-signup-events": "node scripts/setup-newsletter-signup-events.mjs",
     "setup:paid-landing-views": "node scripts/setup-paid-landing-views.mjs"
   },
   "dependencies": {

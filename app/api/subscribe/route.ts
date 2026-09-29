@@ -4,6 +4,10 @@ import {
   MailerLiteRequestError,
   subscribeToPrivateerTalesMain,
 } from '@/lib/mailerlite';
+import {
+  parseNewsletterSignupContext,
+  recordNewsletterSignup,
+} from '@/lib/newsletter-attribution';
 
 const MAX_REQUEST_BYTES = 2_048;
 
@@ -24,10 +28,7 @@ function jsonResponse(
 export async function POST(request: Request) {
   const contentType = request.headers.get('Content-Type') ?? '';
   if (!contentType.toLowerCase().includes('application/json')) {
-    return jsonResponse(
-      { ok: false, code: 'unsupported_media_type' },
-      415,
-    );
+    return jsonResponse({ ok: false, code: 'unsupported_media_type' }, 415);
   }
 
   let rawBody: string;
@@ -53,6 +54,7 @@ export async function POST(request: Request) {
   }
 
   const fields = body as Record<string, unknown>;
+  const signupContext = parseNewsletterSignupContext(fields);
 
   // A filled hidden field is treated as a bot submission. Return the normal
   // response without contacting MailerLite so the endpoint reveals nothing.
@@ -62,6 +64,11 @@ export async function POST(request: Request) {
 
   try {
     await subscribeToPrivateerTalesMain(fields.email);
+    try {
+      await recordNewsletterSignup(signupContext);
+    } catch {
+      console.error('Newsletter signup attribution recording failed.');
+    }
     return jsonResponse({ ok: true }, 200);
   } catch (error) {
     if (error instanceof InvalidEmailAddressError) {
@@ -70,10 +77,7 @@ export async function POST(request: Request) {
 
     if (error instanceof MailerLiteConfigurationError) {
       console.error('Privateer Tales MailerLite configuration is invalid.');
-      return jsonResponse(
-        { ok: false, code: 'subscription_unavailable' },
-        503,
-      );
+      return jsonResponse({ ok: false, code: 'subscription_unavailable' }, 503);
     }
 
     if (error instanceof MailerLiteRequestError) {
@@ -90,9 +94,6 @@ export async function POST(request: Request) {
     }
 
     console.error('Unexpected MailerLite subscription failure.');
-    return jsonResponse(
-      { ok: false, code: 'subscription_unavailable' },
-      500,
-    );
+    return jsonResponse({ ok: false, code: 'subscription_unavailable' }, 500);
   }
 }

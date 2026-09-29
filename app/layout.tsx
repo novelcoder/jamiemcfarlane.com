@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { AnalyticsConsent } from '@/components/analytics-consent';
+import { NewsletterSourceCapture } from '@/components/newsletter-source-capture';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <NewsletterSourceCapture />
         {children}
         <AnalyticsConsent />
       </body>

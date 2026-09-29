@@ -4,6 +4,10 @@ import { ArrowRight } from 'lucide-react';
 import { useId, useState, type SubmitEvent } from 'react';
 
 import { trackNewsletterSignupSuccess } from '@/components/analytics-consent';
+import {
+  newsletterSourceForSignup,
+  parseSignupPath,
+} from '@/lib/newsletter-attribution-shared';
 
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -43,6 +47,11 @@ export function NewsletterSignup({
     const formData = new FormData(form);
     const email = formData.get('email');
     const website = formData.get('website');
+    const sourceKey = newsletterSourceForSignup(
+      window.location.search,
+      window.sessionStorage,
+    );
+    const signupPath = parseSignupPath(window.location.pathname);
 
     setSubmissionState('submitting');
     setMessage('');
@@ -53,7 +62,12 @@ export function NewsletterSignup({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, website }),
+        body: JSON.stringify({
+          email,
+          website,
+          source_key: sourceKey,
+          signup_path: signupPath,
+        }),
       });
       const result = (await response
         .json()
