@@ -45,7 +45,11 @@ export default function PrivacyPage() {
         <p>
           If you request the free books, the email address you provide is sent
           to MailerLite so Jamie McFarlane can deliver the books and occasional
-          book news. You can unsubscribe from those emails at any time.
+          book news. After MailerLite accepts the request, the site records the
+          signup page and whether the request came from a recognized Google Ads
+          campaign or from otherwise unattributed website traffic. That
+          measurement record does not contain your email address. You can
+          unsubscribe from those emails at any time.
         </p>
       </article>
     </main>

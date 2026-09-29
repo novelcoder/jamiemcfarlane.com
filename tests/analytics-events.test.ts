@@ -7,6 +7,27 @@ import {
   parsePaidLandingView,
   SPACESHIP_MECHANIC_LANDING_PATH,
 } from '../lib/paid-landing-view.ts';
+import {
+  NEWSLETTER_SITE_KEY,
+  parseNewsletterSignupContext,
+  sourceTypeForValidatedKey,
+} from '../lib/newsletter-attribution.ts';
+import {
+  newsletterSourceForSignup,
+  rememberNewsletterSource,
+} from '../lib/newsletter-attribution-shared.ts';
+
+function memoryStorage() {
+  const values = new Map<string, string>();
+  return {
+    getItem(key: string) {
+      return values.get(key) ?? null;
+    },
+    setItem(key: string, value: string) {
+      values.set(key, value);
+    },
+  };
+}
 
 void test('aligns landing-view dates to the advertising account time zone', () => {
   assert.equal(
@@ -73,4 +94,37 @@ void test('accepts only the normalized Spaceship Mechanic paid landing payload',
     }),
     null,
   );
+});
+
+void test('keeps a validated Google source for a later newsletter signup', () => {
+  const storage = memoryStorage();
+  assert.equal(rememberNewsletterSource('gads_sm_b1_2026_09', storage), true);
+  assert.equal(newsletterSourceForSignup('', storage), 'gads_sm_b1_2026_09');
+  assert.equal(
+    newsletterSourceForSignup('?source_key=bad-key', storage),
+    'gads_sm_b1_2026_09',
+  );
+});
+
+void test('normalizes anonymous newsletter attribution fields', () => {
+  assert.equal(NEWSLETTER_SITE_KEY, 'jamie_mcfarlane');
+  assert.deepEqual(
+    parseNewsletterSignupContext({
+      source_key: 'gads_sm_b1_2026_09',
+      signup_path: '/SpaceshipMechanic',
+    }),
+    {
+      sourceKey: 'gads_sm_b1_2026_09',
+      signupPath: '/SpaceshipMechanic',
+    },
+  );
+  assert.deepEqual(
+    parseNewsletterSignupContext({
+      source_key: 'bad-key',
+      signup_path: 'https://example.com/private',
+    }),
+    { sourceKey: null, signupPath: '/unknown' },
+  );
+  assert.equal(sourceTypeForValidatedKey('gads_sm_b1_2026_09'), 'google_ads');
+  assert.equal(sourceTypeForValidatedKey(null), 'website_unattributed');
 });
