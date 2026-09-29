@@ -128,3 +128,27 @@ void test('normalizes anonymous newsletter attribution fields', () => {
   assert.equal(sourceTypeForValidatedKey('gads_sm_b1_2026_09'), 'google_ads');
   assert.equal(sourceTypeForValidatedKey(null), 'website_unattributed');
 });
+
+void test('Mac Worden source keys are never Jamie attribution sources', async () => {
+  const { hasEnabledAttributionSource, isJamieAttributionSourceKey } =
+    await import('../lib/attribution-source.ts');
+  assert.equal(isJamieAttributionSourceKey('gads_sm_b1_2026_09'), true);
+  assert.equal(isJamieAttributionSourceKey('gads_mw_jc_b1_2026_09'), false);
+  assert.equal(isJamieAttributionSourceKey('gads_mwx_b1'), true);
+
+  const originalFetch = globalThis.fetch;
+  let fetched = false;
+  globalThis.fetch = (async () => {
+    fetched = true;
+    throw new Error('should not look up other-brand keys');
+  }) as typeof fetch;
+  try {
+    assert.equal(
+      await hasEnabledAttributionSource('gads_mw_jc_b1_2026_09'),
+      false,
+    );
+    assert.equal(fetched, false);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
