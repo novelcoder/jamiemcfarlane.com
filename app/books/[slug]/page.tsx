@@ -13,6 +13,11 @@ import {
   ATTRIBUTION_QUERY_PARAM,
   withAttribution,
 } from '@/lib/attribution-routing';
+import {
+  defaultStoreLabel,
+  isPreorder,
+  releaseDateLabel,
+} from '@/lib/book-status';
 import { getBookPageData } from '@/lib/catalog';
 import { seriesLandingPath, seriesReadingOrderPath } from '@/lib/series-routes';
 
@@ -145,6 +150,14 @@ export default async function BookPage({
       url: `${SITE_URL}${seriesLandingPath(series.slug)}`,
     },
     sameAs: book.store_url || undefined,
+    offers:
+      isPreorder(book.status) && book.store_url
+        ? {
+            '@type': 'Offer',
+            url: book.store_url,
+            availability: 'https://schema.org/PreOrder',
+          }
+        : undefined,
   };
 
   return (
@@ -191,7 +204,7 @@ export default async function BookPage({
           ) : null}
           {book.release_date ? (
             <p className={styles.releaseDate}>
-              Published {formatDate(book.release_date)}
+              {releaseDateLabel(book.status, formatDate(book.release_date))}
             </p>
           ) : null}
 
@@ -220,7 +233,7 @@ export default async function BookPage({
                 }}
               >
                 <BookOpen aria-hidden="true" />
-                {book.store_label || 'Buy the book'}
+                {book.store_label || defaultStoreLabel(book.status)}
               </TrackedAmazonLink>
             ) : null}
             {book.audible_url ? (

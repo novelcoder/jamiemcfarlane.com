@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-import { getPublishedBooks } from '@/lib/catalog';
+import { getPublicBooks } from '@/lib/catalog';
 import { getAllPublishedPosts } from '@/lib/posts';
 
 const siteUrl = 'https://www.jamiemcfarlane.com';
@@ -14,7 +14,7 @@ function lastModified(value: string) {
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [books, posts] = await Promise.all([
-    getPublishedBooks(),
+    getPublicBooks(),
     getAllPublishedPosts(),
   ]);
   const staticRoutes: MetadataRoute.Sitemap = [
