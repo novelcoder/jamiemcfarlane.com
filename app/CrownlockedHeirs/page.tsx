@@ -5,6 +5,7 @@ import { ArrowUpRight, Headphones } from 'lucide-react';
 
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
+import { SERIES_LISTED_BOOK_STATUSES } from '@/lib/book-status';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
 
 import styles from './crownlocked-heirs.module.css';
@@ -39,8 +40,7 @@ function bookLabel(book: BookRecord) {
 
 export default async function CrownlockedHeirsPage() {
   const { series, books } = await getSeriesLandingData('crownlocked-heirs', [
-    'published',
-    'coming_soon',
+    ...SERIES_LISTED_BOOK_STATUSES,
   ]);
   const startBook = books.find((book) => book.series_number === 1) ?? books[0];
   const description = series.description
@@ -148,7 +148,7 @@ export default async function CrownlockedHeirsPage() {
                 <div className={styles.bookLinks}>
                   {book.store_url ? (
                     <a href={book.store_url} target="_blank" rel="noreferrer">
-                      {book.store_label || 'View the book'}
+                      {book.store_label || 'Buy the book'}
                       <ArrowUpRight aria-hidden="true" />
                     </a>
                   ) : null}

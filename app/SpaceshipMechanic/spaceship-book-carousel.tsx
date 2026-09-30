@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/carousel';
 import type { AttributionContext } from '@/lib/attribution';
 import { selectPurchaseUrl, withAttribution } from '@/lib/attribution-routing';
+import { hasBookPage } from '@/lib/book-status';
 import type { BookRecord } from '@/lib/catalog';
 
 import styles from './spaceship-mechanic.module.css';
@@ -56,7 +57,7 @@ export function SpaceshipBookCarousel({
           return (
             <CarouselItem className={styles.bookSlide} key={book.id}>
               <article className={styles.thumbnailCard}>
-                {book.status === 'published' ? (
+                {hasBookPage(book.status) ? (
                   <TrackedBookLink
                     href={withAttribution(
                       `/books/${encodeURIComponent(book.slug)}`,

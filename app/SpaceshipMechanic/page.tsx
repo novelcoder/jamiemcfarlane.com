@@ -15,6 +15,11 @@ import {
   ATTRIBUTION_QUERY_PARAM,
   withAttribution,
 } from '@/lib/attribution-routing';
+import {
+  isUpcoming,
+  SERIES_LISTED_BOOK_STATUSES,
+  upcomingNoticeLabel,
+} from '@/lib/book-status';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
 
 import { SpaceshipBookCarousel } from './spaceship-book-carousel';
@@ -68,8 +73,7 @@ export default async function SpaceshipMechanicPage({
   searchParams,
 }: SpaceshipMechanicPageProps) {
   const { series, books } = await getSeriesLandingData('spaceship-mechanic', [
-    'published',
-    'coming_soon',
+    ...SERIES_LISTED_BOOK_STATUSES,
   ]);
   const query = await searchParams;
   const attribution = await getSpaceshipAttributionContext(
@@ -77,7 +81,7 @@ export default async function SpaceshipMechanicPage({
     books,
   );
   const startBook = books.find((book) => book.series_number === 1) ?? books[0];
-  const upcomingBook = books.find((book) => book.status === 'coming_soon');
+  const upcomingBook = books.find((book) => isUpcoming(book.status));
   const seriesIntro = series.description.split('\n\n')[1] || series.description;
 
   return (
@@ -136,7 +140,12 @@ export default async function SpaceshipMechanicPage({
             {upcomingBook ? (
               <div className={styles.releaseNotice} id="coming-soon">
                 <div>
-                  <span>Coming {formatDate(upcomingBook.release_date)}</span>
+                  <span>
+                    {upcomingNoticeLabel(
+                      upcomingBook.status,
+                      formatDate(upcomingBook.release_date),
+                    )}
+                  </span>
                   <strong>{upcomingBook.title}</strong>
                 </div>
                 {upcomingBook.store_url ? (

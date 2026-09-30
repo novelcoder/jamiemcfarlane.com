@@ -1,5 +1,7 @@
 import { cache } from 'react';
 
+import { PUBLIC_BOOK_STATUSES } from './book-status.ts';
+
 const APPWRITE_ENDPOINT = 'https://sfo.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT_ID = '6a0b4638002a71c2b8ec';
 export const APPWRITE_DATABASE_ID = '6a0b628900008b8506e3';
@@ -128,7 +130,7 @@ function asBook(row: AppwriteRow): BookRecord {
       row.cover_alt,
       `${stringValue(row.title, 'Book')} cover`,
     ),
-    store_label: stringValue(row.store_label, 'Buy the book'),
+    store_label: stringValue(row.store_label),
     store_url: stringValue(row.store_url),
     audible_url: stringValue(row.audible_url),
     release_date: stringValue(row.release_date),
@@ -175,9 +177,10 @@ function sortBooks(left: BookRecord, right: BookRecord) {
   return left.series_number - right.series_number;
 }
 
-export const getPublishedBooks = cache(async () => {
+// Books that get their own /books/[slug] page and sitemap entry.
+export const getPublicBooks = cache(async () => {
   const queries = new URLSearchParams();
-  queries.append('queries[]', equalQuery('status', ['published']));
+  queries.append('queries[]', equalQuery('status', [...PUBLIC_BOOK_STATUSES]));
   queries.append('queries[]', limitQuery(100));
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
@@ -193,8 +196,8 @@ export function normalizeBookRouteSlug(slug: string) {
   return slug.toLocaleLowerCase('en-US').replaceAll('-', '');
 }
 
-export const resolvePublishedBook = cache(async (requestedSlug: string) => {
-  const books = await getPublishedBooks();
+export const resolvePublicBook = cache(async (requestedSlug: string) => {
+  const books = await getPublicBooks();
   const aliases = new Map<string, BookRecord>();
 
   for (const book of books) {
@@ -202,7 +205,7 @@ export const resolvePublishedBook = cache(async (requestedSlug: string) => {
     const existing = aliases.get(alias);
     if (existing && existing.id !== book.id) {
       throw new Error(
-        `Published book slugs have a normalized alias collision: ${existing.slug} and ${book.slug}`,
+        `Public book slugs have a normalized alias collision: ${existing.slug} and ${book.slug}`,
       );
     }
     aliases.set(alias, book);
@@ -212,12 +215,12 @@ export const resolvePublishedBook = cache(async (requestedSlug: string) => {
 });
 
 export const getBookPageData = cache(async (requestedSlug: string) => {
-  const book = await resolvePublishedBook(requestedSlug);
+  const book = await resolvePublicBook(requestedSlug);
   if (!book) return null;
 
   const [series, books] = await Promise.all([
     getSeriesById(book.series_id),
-    getPublishedBooks(),
+    getPublicBooks(),
   ]);
   const seriesBooks = books
     .filter((candidate) => candidate.series_id === book.series_id)
