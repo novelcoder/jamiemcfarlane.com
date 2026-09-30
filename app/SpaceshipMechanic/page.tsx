@@ -72,10 +72,9 @@ type SpaceshipMechanicPageProps = {
 export default async function SpaceshipMechanicPage({
   searchParams,
 }: SpaceshipMechanicPageProps) {
-  const { series, books } = await getSeriesLandingData(
-    'spaceship-mechanic',
-    [...SERIES_LISTED_BOOK_STATUSES],
-  );
+  const { series, books } = await getSeriesLandingData('spaceship-mechanic', [
+    ...SERIES_LISTED_BOOK_STATUSES,
+  ]);
   const query = await searchParams;
   const attribution = await getSpaceshipAttributionContext(
     query[ATTRIBUTION_QUERY_PARAM],

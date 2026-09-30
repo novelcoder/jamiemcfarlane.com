@@ -180,10 +180,7 @@ function sortBooks(left: BookRecord, right: BookRecord) {
 // Books that get their own /books/[slug] page and sitemap entry.
 export const getPublicBooks = cache(async () => {
   const queries = new URLSearchParams();
-  queries.append(
-    'queries[]',
-    equalQuery('status', [...PUBLIC_BOOK_STATUSES]),
-  );
+  queries.append('queries[]', equalQuery('status', [...PUBLIC_BOOK_STATUSES]));
   queries.append('queries[]', limitQuery(100));
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(

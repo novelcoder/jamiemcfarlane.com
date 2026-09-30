@@ -39,10 +39,9 @@ function bookLabel(book: BookRecord) {
 }
 
 export default async function CrownlockedHeirsPage() {
-  const { series, books } = await getSeriesLandingData(
-    'crownlocked-heirs',
-    [...SERIES_LISTED_BOOK_STATUSES],
-  );
+  const { series, books } = await getSeriesLandingData('crownlocked-heirs', [
+    ...SERIES_LISTED_BOOK_STATUSES,
+  ]);
   const startBook = books.find((book) => book.series_number === 1) ?? books[0];
   const description = series.description
     .split('\n\n')
