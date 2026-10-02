@@ -1255,6 +1255,9 @@ a:focus-visible {
 
   .signup-email {
     width: 100%;
+    /* The panel stacks as a column here, so the desktop flex-basis (10rem)
+       would set the input's height instead of its width. */
+    flex: none;
   }
 
   .gold-button {
