@@ -143,6 +143,14 @@ export function equalQuery(attribute: string, values: unknown[]) {
   return JSON.stringify({ method: 'equal', attribute, values });
 }
 
+export function lessThanEqualQuery(attribute: string, value: unknown) {
+  return JSON.stringify({
+    method: 'lessThanEqual',
+    attribute,
+    values: [value],
+  });
+}
+
 export function limitQuery(limit: number) {
   return JSON.stringify({ method: 'limit', values: [limit] });
 }
