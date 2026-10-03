@@ -4,6 +4,7 @@ import {
   APPWRITE_DATABASE_ID,
   appwriteFetch,
   equalQuery,
+  lessThanEqualQuery,
   limitQuery,
 } from './catalog.ts';
 
@@ -88,6 +89,22 @@ function postTablePath(suffix = '') {
   return `/tablesdb/${APPWRITE_DATABASE_ID}/tables/${POSTS_TABLE_ID}${suffix}`;
 }
 
+export function publishedPostVisibilityQueries(now = new Date()) {
+  return [
+    equalQuery('status', ['published']),
+    lessThanEqualQuery('published_at', now.toISOString()),
+  ];
+}
+
+function appendPublishedPostVisibilityQueries(
+  queries: URLSearchParams,
+  now = new Date(),
+) {
+  for (const query of publishedPostVisibilityQueries(now)) {
+    queries.append('queries[]', query);
+  }
+}
+
 export function blogImagePath(fileId: string) {
   return fileId ? `/blog-images/${encodeURIComponent(fileId)}` : '';
 }
@@ -117,7 +134,7 @@ export async function getPublishedPosts({
   const safeLimit = Math.min(Math.max(Math.trunc(limit), 1), 100);
   const safeOffset = Math.max(Math.trunc(offset), 0);
   const queries = new URLSearchParams();
-  queries.append('queries[]', equalQuery('status', ['published']));
+  appendPublishedPostVisibilityQueries(queries);
   queries.append('queries[]', orderDescQuery('published_at'));
   queries.append('queries[]', limitQuery(safeLimit));
   if (safeOffset > 0) {
@@ -137,7 +154,7 @@ export async function getPublishedPosts({
 
 export const getPublishedPost = cache(async (slug: string) => {
   const queries = new URLSearchParams();
-  queries.append('queries[]', equalQuery('status', ['published']));
+  appendPublishedPostVisibilityQueries(queries);
   queries.append('queries[]', equalQuery('slug', [slug]));
   queries.append('queries[]', limitQuery(1));
 
