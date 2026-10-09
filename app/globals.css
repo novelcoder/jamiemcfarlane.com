@@ -947,6 +947,7 @@ img {
 
 .site-footer {
   display: flex;
+  flex-wrap: wrap;
   min-height: 5.2rem;
   align-items: center;
   justify-content: space-between;
@@ -959,6 +960,33 @@ img {
   font-size: 0.8rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+}
+
+/* Amazon Associates disclosure (see components/affiliate-disclosure.tsx).
+   Inherits each theme's text colour so it matches every series footer. */
+footer > p.affiliate-disclosure--footer {
+  display: block;
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  text-align: start;
+  text-transform: none;
+  opacity: 0.85;
+}
+
+p.affiliate-disclosure--inline {
+  width: 100%;
+  margin: 0.65rem 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  text-transform: none;
+  opacity: 0.75;
 }
 
 .footer-links {

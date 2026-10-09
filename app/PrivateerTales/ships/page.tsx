@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Compass, ExternalLink } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { ShipRegistry } from '@/components/ship-registry';
 import { getSeriesLandingData } from '@/lib/catalog';
@@ -91,6 +92,7 @@ export default async function PrivateerShipsPage() {
         <Link className={`${styles.button} ${styles.footerButton}`} href="/">
           Visit Jamie McFarlane <ExternalLink aria-hidden="true" />
         </Link>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

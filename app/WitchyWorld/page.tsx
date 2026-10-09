@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
 
 import styles from './witchy-world.module.css';
@@ -149,6 +150,7 @@ export default async function WitchyWorldPage() {
           <Link href="/">Back to the homepage</Link>
           <Link href="/privacy">Privacy &amp; cookies</Link>
         </div>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

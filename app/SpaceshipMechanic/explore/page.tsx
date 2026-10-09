@@ -11,6 +11,7 @@ import {
   Wrench,
 } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { getSpaceshipAttributionContext } from '@/lib/attribution';
 import {
@@ -338,6 +339,7 @@ export default async function SpaceshipMechanicExplorePage({
           <Link href="/privacy">Privacy &amp; cookies</Link>
           <CookieSettingsButton className={styles.cookieButton} />
         </div>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 
 export function SiteFooter() {
@@ -12,6 +13,7 @@ export function SiteFooter() {
         <Link href="/privacy">Privacy &amp; cookies</Link>
         <CookieSettingsButton />
       </div>
+      <AffiliateDisclosure variant="footer" />
     </footer>
   );
 }

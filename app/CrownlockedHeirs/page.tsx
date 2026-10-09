@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Headphones } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
 import { SERIES_LISTED_BOOK_STATUSES } from '@/lib/book-status';
@@ -97,6 +98,9 @@ export default async function CrownlockedHeirsPage() {
               See the reading order
             </a>
           </div>
+          {startBook?.store_url ? (
+            <AffiliateDisclosure variant="inline" />
+          ) : null}
         </div>
       </section>
 
@@ -190,6 +194,7 @@ export default async function CrownlockedHeirsPage() {
           <Link href="/privacy">Privacy &amp; cookies</Link>
           <CookieSettingsButton className={styles.cookieButton} />
         </div>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

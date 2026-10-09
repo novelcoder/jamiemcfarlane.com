@@ -11,6 +11,7 @@ import {
   Users,
 } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { getSeriesLandingData } from '@/lib/catalog';
 
@@ -284,6 +285,7 @@ export default async function PrivateerTalesPage() {
         <Link className={`${styles.button} ${styles.footerButton}`} href="/">
           Visit Jamie McFarlane <ExternalLink aria-hidden="true" />
         </Link>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

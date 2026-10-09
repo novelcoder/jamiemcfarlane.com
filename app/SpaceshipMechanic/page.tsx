@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
 import { PaidLandingMeasurement } from '@/components/paid-landing-measurement';
@@ -169,6 +170,9 @@ export default async function SpaceshipMechanicPage({
                 ) : null}
               </div>
             ) : null}
+            {upcomingBook?.store_url ? (
+              <AffiliateDisclosure variant="inline" />
+            ) : null}
           </div>
 
           <div className={styles.heroShip} aria-label="The starship Calypso">
@@ -258,6 +262,7 @@ export default async function SpaceshipMechanicPage({
           <Link href="/privacy">Privacy &amp; cookies</Link>
           <CookieSettingsButton className={styles.cookieButton} />
         </div>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

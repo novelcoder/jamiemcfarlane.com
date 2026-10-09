@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Compass, ExternalLink } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { getSeriesLandingData } from '@/lib/catalog';
 
@@ -150,6 +151,7 @@ export default async function PrivateerBooksPage() {
         <Link className={`${styles.button} ${styles.footerButton}`} href="/">
           Visit Jamie McFarlane <ExternalLink aria-hidden="true" />
         </Link>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

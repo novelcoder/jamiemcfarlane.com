@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, BookOpen, Headphones } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
@@ -218,6 +219,7 @@ export default async function JunkyardPiratePage() {
           <Link href="/privacy">Privacy &amp; cookies</Link>
           <CookieSettingsButton className={styles.cookieButton} />
         </div>
+        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );
