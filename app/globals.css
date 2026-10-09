@@ -961,6 +961,37 @@ img {
   text-transform: uppercase;
 }
 
+/* Amazon Associates disclosure (see components/affiliate-disclosure.tsx).
+   In footers it sits under the wordmark, so no footer gets taller, and it
+   inherits each theme's text colour. */
+.footer-identity {
+  display: inline-grid;
+  justify-items: start;
+  gap: 0.3rem;
+}
+
+.affiliate-disclosure--footer {
+  display: block;
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-transform: none;
+  white-space: normal;
+  opacity: 0.75;
+}
+
+p.affiliate-disclosure--inline {
+  width: 100%;
+  margin: 0.65rem 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  text-transform: none;
+  opacity: 0.75;
+}
+
 .footer-links {
   display: flex;
   align-items: center;

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Headphones } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
 import { SERIES_LISTED_BOOK_STATUSES } from '@/lib/book-status';
@@ -97,6 +98,9 @@ export default async function CrownlockedHeirsPage() {
               See the reading order
             </a>
           </div>
+          {startBook?.store_url ? (
+            <AffiliateDisclosure variant="inline" />
+          ) : null}
         </div>
       </section>
 
@@ -182,9 +186,12 @@ export default async function CrownlockedHeirsPage() {
       </section>
 
       <footer className={styles.footer}>
-        <Link className={styles.authorWordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.authorWordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <p>Crownlocked Heirs is a series by Jamie McFarlane.</p>
         <div>
           <Link href="/privacy">Privacy &amp; cookies</Link>

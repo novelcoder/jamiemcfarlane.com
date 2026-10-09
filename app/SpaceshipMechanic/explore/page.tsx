@@ -11,6 +11,7 @@ import {
   Wrench,
 } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { getSpaceshipAttributionContext } from '@/lib/attribution';
 import {
@@ -330,9 +331,12 @@ export default async function SpaceshipMechanicExplorePage({
       </section>
 
       <footer className={styles.footer}>
-        <Link className={styles.wordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.wordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <p>Spaceship Mechanic is a series by Jamie McFarlane.</p>
         <div>
           <Link href="/privacy">Privacy &amp; cookies</Link>

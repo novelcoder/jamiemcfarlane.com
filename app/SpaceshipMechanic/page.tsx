@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
 import { PaidLandingMeasurement } from '@/components/paid-landing-measurement';
@@ -169,6 +170,9 @@ export default async function SpaceshipMechanicPage({
                 ) : null}
               </div>
             ) : null}
+            {upcomingBook?.store_url ? (
+              <AffiliateDisclosure variant="inline" />
+            ) : null}
           </div>
 
           <div className={styles.heroShip} aria-label="The starship Calypso">
@@ -250,9 +254,12 @@ export default async function SpaceshipMechanicPage({
       </div>
 
       <footer className={styles.footer}>
-        <Link className={styles.wordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.wordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <p>Spaceship Mechanic is a series by Jamie McFarlane.</p>
         <div>
           <Link href="/privacy">Privacy &amp; cookies</Link>

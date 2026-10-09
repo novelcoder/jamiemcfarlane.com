@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Compass, ExternalLink } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { getSeriesLandingData } from '@/lib/catalog';
 
@@ -127,15 +128,21 @@ export default async function PrivateerBooksPage() {
       </section>
 
       <footer className={styles.siteFooter} id="news">
-        <Link className={`${styles.brand} ${styles.footerBrand}`} href="/">
-          <span className={styles.brandMark} aria-hidden="true">
-            <Compass strokeWidth={1.25} />
-          </span>
-          <span>
-            <strong>{series.name}</strong>
-            <small>A series by Jamie McFarlane</small>
-          </span>
-        </Link>
+        <span className="footer-identity">
+          <Link className={`${styles.brand} ${styles.footerBrand}`} href="/">
+            <span className={styles.brandMark} aria-hidden="true">
+              <Compass strokeWidth={1.25} />
+            </span>
+            <span>
+              <strong>{series.name}</strong>
+              <small>A series by Jamie McFarlane</small>
+            </span>
+          </Link>
+          <AffiliateDisclosure
+            variant="footer"
+            className={styles.footerDisclosure}
+          />
+        </span>
 
         <div className={styles.footerJoin}>
           <p className={styles.footerTitle}>Join the crew</p>

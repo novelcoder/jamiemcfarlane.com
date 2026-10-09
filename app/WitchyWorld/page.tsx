@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
 
 import styles from './witchy-world.module.css';
@@ -142,9 +143,12 @@ export default async function WitchyWorldPage() {
       </section>
 
       <footer className={styles.footer}>
-        <Link className={styles.wordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.wordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <div>
           <Link href="/">Back to the homepage</Link>
           <Link href="/privacy">Privacy &amp; cookies</Link>

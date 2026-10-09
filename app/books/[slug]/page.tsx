@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpen, Headphones } from 'lucide-react';
 import { notFound, permanentRedirect } from 'next/navigation';
 
+import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { TrackedAmazonLink } from '@/components/tracked-links';
 import {
   getSpaceshipAttributionContext,
@@ -247,6 +248,7 @@ export default async function BookPage({
               </a>
             ) : null}
           </div>
+          {book.store_url ? <AffiliateDisclosure variant="inline" /> : null}
         </div>
       </article>
 
@@ -276,9 +278,12 @@ export default async function BookPage({
       </nav>
 
       <footer className={styles.footer}>
-        <Link className={styles.wordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.wordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <Link href={attributedPath(seriesLandingPath(series.slug))}>
           Explore {series.name}
         </Link>

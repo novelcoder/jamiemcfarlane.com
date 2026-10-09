@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { CookieSettingsButton } from '@/components/analytics-consent';
+import { SiteFooter } from '@/components/site-footer';
 
 export const metadata = {
   title: 'Privacy & Cookies | Jamie McFarlane',
@@ -52,6 +53,7 @@ export default function PrivacyPage() {
           unsubscribe from those emails at any time.
         </p>
       </article>
+      <SiteFooter />
     </main>
   );
 }
