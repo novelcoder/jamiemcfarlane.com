@@ -272,7 +272,10 @@ export default async function PrivateerTalesPage() {
               <small>A series by Jamie McFarlane</small>
             </span>
           </Link>
-          <AffiliateDisclosure variant="footer" />
+          <AffiliateDisclosure
+            variant="footer"
+            className={styles.footerDisclosure}
+          />
         </span>
 
         <div className={styles.footerJoin}>

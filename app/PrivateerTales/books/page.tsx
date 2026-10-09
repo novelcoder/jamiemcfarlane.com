@@ -138,7 +138,10 @@ export default async function PrivateerBooksPage() {
               <small>A series by Jamie McFarlane</small>
             </span>
           </Link>
-          <AffiliateDisclosure variant="footer" />
+          <AffiliateDisclosure
+            variant="footer"
+            className={styles.footerDisclosure}
+          />
         </span>
 
         <div className={styles.footerJoin}>

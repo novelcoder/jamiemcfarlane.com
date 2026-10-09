@@ -32,7 +32,7 @@ void test('every footer on the site carries the disclosure', () => {
   for (const path of footers) {
     assert.match(
       source(path),
-      /<span className="footer-identity">[\s\S]*?<AffiliateDisclosure variant="footer" \/>\s*<\/span>/,
+      /<span className="footer-identity">[\s\S]*?<AffiliateDisclosure\s+variant="footer"[^>]*\/>\s*<\/span>/,
       `${path} footer is missing the disclosure`,
     );
   }

@@ -102,6 +102,11 @@
   color: #ff8b3e;
 }
 
+/* Lines the footer disclosure up with the series name, past the compass mark. */
+.footerDisclosure {
+  padding-left: calc(3.5rem + 0.8rem);
+}
+
 .brandMark svg {
   width: 100%;
   height: 100%;
@@ -989,6 +994,10 @@
   .brandMark {
     width: 2.5rem;
     height: 2.5rem;
+  }
+
+  .footerDisclosure {
+    padding-left: calc(2.5rem + 0.8rem);
   }
 
   .brand strong {
