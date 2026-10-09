@@ -6,6 +6,12 @@ const APPWRITE_ENDPOINT = 'https://sfo.cloud.appwrite.io/v1';
 const APPWRITE_PROJECT_ID = '6a0b4638002a71c2b8ec';
 export const APPWRITE_DATABASE_ID = '6a0b628900008b8506e3';
 
+// Row id in the shared Appwrite `sites` table for this author site. Series rows
+// point their `sites` column at the author site they belong to, so this site
+// only exposes books from series tagged with this id. The publisher site
+// (fickledragon.com) does not gate on `sites`.
+export const JAMIE_MCFARLANE_SITE_ID = '6ac921fe001bfe4ecb28';
+
 export type SeriesRecord = {
   id: string;
   name: string;
@@ -185,11 +191,43 @@ function sortBooks(left: BookRecord, right: BookRecord) {
   return left.series_number - right.series_number;
 }
 
-// Books that get their own /books/[slug] page and sitemap entry.
-export const getPublicBooks = cache(async () => {
+export function siteSeriesQueries(siteId: string) {
+  return [equalQuery('sites', [siteId]), limitQuery(100)];
+}
+
+export function publicBookQueries(seriesIds: string[]) {
+  return [
+    equalQuery('status', [...PUBLIC_BOOK_STATUSES]),
+    equalQuery('series_id', seriesIds),
+    limitQuery(100),
+  ];
+}
+
+// Ids of the series that belong to this site. The `books` table is shared with
+// other author sites, so every book lookup is scoped to these series.
+export const getSiteSeriesIds = cache(async () => {
   const queries = new URLSearchParams();
-  queries.append('queries[]', equalQuery('status', [...PUBLIC_BOOK_STATUSES]));
-  queries.append('queries[]', limitQuery(100));
+  for (const query of siteSeriesQueries(JAMIE_MCFARLANE_SITE_ID)) {
+    queries.append('queries[]', query);
+  }
+
+  const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
+    `/tablesdb/${APPWRITE_DATABASE_ID}/tables/series/rows?${queries.toString()}`,
+  );
+
+  return result.rows.map((row) => row.$id);
+});
+
+// Books that get their own /books/[slug] page and sitemap entry: public
+// statuses only, and only from this site's series.
+export const getPublicBooks = cache(async () => {
+  const seriesIds = await getSiteSeriesIds();
+  if (seriesIds.length === 0) return [];
+
+  const queries = new URLSearchParams();
+  for (const query of publicBookQueries(seriesIds)) {
+    queries.append('queries[]', query);
+  }
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
     `/tablesdb/${APPWRITE_DATABASE_ID}/tables/books/rows?${queries.toString()}`,
