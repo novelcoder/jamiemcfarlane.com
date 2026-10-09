@@ -947,7 +947,6 @@ img {
 
 .site-footer {
   display: flex;
-  flex-wrap: wrap;
   min-height: 5.2rem;
   align-items: center;
   justify-content: space-between;
@@ -963,20 +962,24 @@ img {
 }
 
 /* Amazon Associates disclosure (see components/affiliate-disclosure.tsx).
-   Inherits each theme's text colour so it matches every series footer. */
-footer > p.affiliate-disclosure--footer {
+   In footers it sits under the wordmark, so no footer gets taller, and it
+   inherits each theme's text colour. */
+.footer-identity {
+  display: inline-grid;
+  justify-items: start;
+  gap: 0.3rem;
+}
+
+.affiliate-disclosure--footer {
   display: block;
-  grid-column: 1 / -1;
-  width: 100%;
-  margin: 0;
-  padding-top: 1rem;
-  border-top: 1px solid color-mix(in srgb, currentColor 18%, transparent);
-  font-size: 0.72rem;
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 400;
   letter-spacing: 0.02em;
-  line-height: 1.5;
-  text-align: start;
+  line-height: 1.4;
   text-transform: none;
-  opacity: 0.85;
+  white-space: normal;
+  opacity: 0.75;
 }
 
 p.affiliate-disclosure--inline {

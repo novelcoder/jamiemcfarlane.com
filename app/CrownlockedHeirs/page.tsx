@@ -186,15 +186,17 @@ export default async function CrownlockedHeirsPage() {
       </section>
 
       <footer className={styles.footer}>
-        <Link className={styles.authorWordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.authorWordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <p>Crownlocked Heirs is a series by Jamie McFarlane.</p>
         <div>
           <Link href="/privacy">Privacy &amp; cookies</Link>
           <CookieSettingsButton className={styles.cookieButton} />
         </div>
-        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

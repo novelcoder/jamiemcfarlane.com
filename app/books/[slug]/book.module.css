@@ -280,7 +280,6 @@
 
 .footer {
   display: flex;
-  flex-wrap: wrap;
   min-height: 7rem;
   align-items: center;
   justify-content: space-between;
@@ -292,7 +291,7 @@
   font-size: 0.82rem;
 }
 
-.footer > a:last-of-type {
+.footer > a:last-child {
   color: var(--book-gold);
 }
 

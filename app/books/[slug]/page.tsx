@@ -278,13 +278,15 @@ export default async function BookPage({
       </nav>
 
       <footer className={styles.footer}>
-        <Link className={styles.wordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.wordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <Link href={attributedPath(seriesLandingPath(series.slug))}>
           Explore {series.name}
         </Link>
-        <AffiliateDisclosure variant="footer" />
       </footer>
 
       <script

@@ -254,15 +254,17 @@ export default async function SpaceshipMechanicPage({
       </div>
 
       <footer className={styles.footer}>
-        <Link className={styles.wordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.wordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <p>Spaceship Mechanic is a series by Jamie McFarlane.</p>
         <div>
           <Link href="/privacy">Privacy &amp; cookies</Link>
           <CookieSettingsButton className={styles.cookieButton} />
         </div>
-        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );

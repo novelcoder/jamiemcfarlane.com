@@ -143,14 +143,16 @@ export default async function WitchyWorldPage() {
       </section>
 
       <footer className={styles.footer}>
-        <Link className={styles.wordmark} href="/">
-          Jamie McFarlane
-        </Link>
+        <span className="footer-identity">
+          <Link className={styles.wordmark} href="/">
+            Jamie McFarlane
+          </Link>
+          <AffiliateDisclosure variant="footer" />
+        </span>
         <div>
           <Link href="/">Back to the homepage</Link>
           <Link href="/privacy">Privacy &amp; cookies</Link>
         </div>
-        <AffiliateDisclosure variant="footer" />
       </footer>
     </main>
   );
