@@ -68,6 +68,13 @@ function getCatalogApiKey() {
   );
 }
 
+// Catalog and blog reads are billed per row returned, so they are cached for
+// this long instead of querying Appwrite on every page view.
+export const CATALOG_REVALIDATE_SECONDS = 300;
+export const cachedReadInit: RequestInit = {
+  next: { revalidate: CATALOG_REVALIDATE_SECONDS },
+};
+
 export async function appwriteFetch<T>(
   path: string,
   init: RequestInit = {},
@@ -87,7 +94,7 @@ export async function appwriteFetch<T>(
   const response = await fetch(`${APPWRITE_ENDPOINT}${path}`, {
     ...init,
     headers,
-    cache: 'no-store',
+    ...(init.next?.revalidate === undefined ? { cache: 'no-store' } : {}),
   });
 
   if (!response.ok) {
@@ -168,6 +175,7 @@ async function getSeriesBySlug(slug: string) {
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
     `/tablesdb/${APPWRITE_DATABASE_ID}/tables/series/rows?${queries.toString()}`,
+    cachedReadInit,
   );
   const row = result.rows[0];
 
@@ -178,6 +186,7 @@ async function getSeriesBySlug(slug: string) {
 export const getSeriesById = cache(async (seriesId: string) => {
   const row = await appwriteFetch<AppwriteRow>(
     `/tablesdb/${APPWRITE_DATABASE_ID}/tables/series/rows/${encodeURIComponent(seriesId)}`,
+    cachedReadInit,
   );
   return asSeries(row);
 });
@@ -213,6 +222,7 @@ export const getSiteSeriesIds = cache(async () => {
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
     `/tablesdb/${APPWRITE_DATABASE_ID}/tables/series/rows?${queries.toString()}`,
+    cachedReadInit,
   );
 
   return result.rows.map((row) => row.$id);
@@ -231,6 +241,7 @@ export const getPublicBooks = cache(async () => {
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
     `/tablesdb/${APPWRITE_DATABASE_ID}/tables/books/rows?${queries.toString()}`,
+    cachedReadInit,
   );
 
   return result.rows
@@ -293,6 +304,7 @@ async function getBooksForSeries(seriesId: string, statuses: string[]) {
 
   const result = await appwriteFetch<{ rows: AppwriteRow[] }>(
     `/tablesdb/${APPWRITE_DATABASE_ID}/tables/books/rows?${queries.toString()}`,
+    cachedReadInit,
   );
 
   return result.rows.map(asBook).sort(sortBooks);

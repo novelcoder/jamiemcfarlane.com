@@ -5,8 +5,6 @@ import { getAllPublishedPosts } from '@/lib/posts';
 
 const siteUrl = 'https://www.jamiemcfarlane.com';
 
-export const dynamic = 'force-dynamic';
-
 function lastModified(value: string) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? new Date() : date;
