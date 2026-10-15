@@ -3,6 +3,8 @@ import { cache } from 'react';
 import {
   APPWRITE_DATABASE_ID,
   appwriteFetch,
+  cachedReadInit,
+  CATALOG_REVALIDATE_SECONDS,
   equalQuery,
   lessThanEqualQuery,
   limitQuery,
@@ -96,9 +98,16 @@ export function publishedPostVisibilityQueries(now = new Date()) {
   ];
 }
 
+// The visibility cutoff is part of the request URL, so it is rounded down to
+// the cache window; a millisecond-precise timestamp would never hit the cache.
+export function cacheWindowNow(now = new Date()) {
+  const windowMs = CATALOG_REVALIDATE_SECONDS * 1000;
+  return new Date(Math.floor(now.getTime() / windowMs) * windowMs);
+}
+
 function appendPublishedPostVisibilityQueries(
   queries: URLSearchParams,
-  now = new Date(),
+  now = cacheWindowNow(),
 ) {
   for (const query of publishedPostVisibilityQueries(now)) {
     queries.append('queries[]', query);
@@ -144,7 +153,7 @@ export async function getPublishedPosts({
   const result = await appwriteFetch<{
     total: number;
     rows: AppwritePostRow[];
-  }>(`${postTablePath('/rows')}?${queries.toString()}`);
+  }>(`${postTablePath('/rows')}?${queries.toString()}`, cachedReadInit);
 
   return {
     total: result.total,
@@ -160,6 +169,7 @@ export const getPublishedPost = cache(async (slug: string) => {
 
   const result = await appwriteFetch<{ rows: AppwritePostRow[] }>(
     `${postTablePath('/rows')}?${queries.toString()}`,
+    cachedReadInit,
   );
   return result.rows[0] ? asPost(result.rows[0]) : null;
 });

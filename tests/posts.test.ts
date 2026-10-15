@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   blogImagePath,
+  cacheWindowNow,
   formatPostDate,
   postUrl,
   publishedPostVisibilityQueries,
@@ -38,4 +39,16 @@ void test('published post queries require approval and an arrived timestamp', ()
       values: ['2026-10-03T17:00:00.000Z'],
     },
   ]);
+});
+
+void test('post visibility cutoff is rounded down to the cache window', () => {
+  const early = cacheWindowNow(new Date('2026-10-03T17:04:59.999Z'));
+  const late = cacheWindowNow(new Date('2026-10-03T17:00:00.001Z'));
+
+  assert.equal(early.toISOString(), '2026-10-03T17:00:00.000Z');
+  assert.equal(late.toISOString(), early.toISOString());
+  assert.equal(
+    cacheWindowNow(new Date('2026-10-03T17:05:00.000Z')).toISOString(),
+    '2026-10-03T17:05:00.000Z',
+  );
 });
