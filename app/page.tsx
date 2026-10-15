@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
+import Image from '@/components/site-image';
 import Link from 'next/link';
 import { NewsletterSignup } from '@/components/newsletter-signup';
 import { SiteFooter } from '@/components/site-footer';
@@ -111,6 +111,8 @@ export default async function Home() {
                   alt={item.alt}
                   fill
                   sizes="(max-width: 768px) 35vw, 14vw"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </a>
             ))}
