@@ -265,9 +265,9 @@ export default async function Home() {
         <div className="author-grid site-shell">
           <blockquote>
             <p>
-              I&apos;m building this site to make it easier to find the next
-              book, enter a new series, and explore the worlds behind the
-              stories.
+              If you&apos;ve been reading me for years, thank you. If
+              you&apos;re just arriving, welcome. Either way, I hope you find
+              the story you&apos;ve been looking for.
             </p>
             <cite>— Jamie</cite>
           </blockquote>
