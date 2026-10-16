@@ -94,7 +94,11 @@ void test('public book query filters by status and by this site’s series', () 
     JSON.parse(query),
   );
   assert.deepEqual(queries.slice(0, 2), [
-    { method: 'equal', attribute: 'status', values: ['published', 'preorder'] },
+    {
+      method: 'equal',
+      attribute: 'status',
+      values: ['published', 'preorder', 'coming_soon'],
+    },
     { method: 'equal', attribute: 'series_id', values: ['privateer-tales'] },
   ]);
 });

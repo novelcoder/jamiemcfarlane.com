@@ -6,7 +6,7 @@ import { ArrowUpRight, Headphones } from 'lucide-react';
 import { AffiliateDisclosure } from '@/components/affiliate-disclosure';
 import { CookieSettingsButton } from '@/components/analytics-consent';
 import { NewsletterSignup } from '@/components/newsletter-signup';
-import { SERIES_LISTED_BOOK_STATUSES } from '@/lib/book-status';
+import { PUBLIC_BOOK_STATUSES } from '@/lib/book-status';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
 
 import styles from './crownlocked-heirs.module.css';
@@ -41,7 +41,7 @@ function bookLabel(book: BookRecord) {
 
 export default async function CrownlockedHeirsPage() {
   const { series, books } = await getSeriesLandingData('crownlocked-heirs', [
-    ...SERIES_LISTED_BOOK_STATUSES,
+    ...PUBLIC_BOOK_STATUSES,
   ]);
   const startBook = books.find((book) => book.series_number === 1) ?? books[0];
   const description = series.description

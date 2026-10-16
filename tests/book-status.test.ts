@@ -9,13 +9,13 @@ import {
   upcomingNoticeLabel,
 } from '../lib/book-status.ts';
 
-void test('published and preorder books get a book page', () => {
+void test('published, preorder and coming soon books get a book page', () => {
   assert.equal(hasBookPage('published'), true);
   assert.equal(hasBookPage('preorder'), true);
+  assert.equal(hasBookPage('coming_soon'), true);
 });
 
-void test('coming soon, draft and unknown books do not get a book page', () => {
-  assert.equal(hasBookPage('coming_soon'), false);
+void test('draft and unknown books do not get a book page', () => {
   assert.equal(hasBookPage('draft'), false);
   assert.equal(hasBookPage(''), false);
 });

@@ -18,7 +18,7 @@ import {
   ATTRIBUTION_QUERY_PARAM,
   withAttribution,
 } from '@/lib/attribution-routing';
-import { SERIES_LISTED_BOOK_STATUSES } from '@/lib/book-status';
+import { PUBLIC_BOOK_STATUSES } from '@/lib/book-status';
 import { getSeriesLandingData } from '@/lib/catalog';
 
 import { SpaceshipVideoGallery } from '../spaceship-video-gallery';
@@ -124,7 +124,7 @@ export default async function SpaceshipMechanicExplorePage({
   searchParams,
 }: SpaceshipMechanicExplorePageProps) {
   const { books } = await getSeriesLandingData('spaceship-mechanic', [
-    ...SERIES_LISTED_BOOK_STATUSES,
+    ...PUBLIC_BOOK_STATUSES,
   ]);
   const query = await searchParams;
   const attribution = await getSpaceshipAttributionContext(
