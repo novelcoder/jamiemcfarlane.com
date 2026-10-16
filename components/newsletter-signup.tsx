@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowRight } from 'lucide-react';
-import { useId, useState, type SubmitEvent } from 'react';
+import { useEffect, useId, useRef, useState, type SubmitEvent } from 'react';
 
 import { trackNewsletterSignupSuccess } from '@/components/analytics-consent';
 import {
@@ -19,6 +19,10 @@ type SubscribeResponse = {
 function getErrorMessage(code?: string) {
   if (code === 'invalid_email') {
     return 'Enter a valid email address.';
+  }
+
+  if (code === 'try_again') {
+    return 'That was quick. Please try again.';
   }
 
   if (code === 'rate_limited') {
@@ -39,6 +43,11 @@ export function NewsletterSignup({
   const [submissionState, setSubmissionState] =
     useState<SubmissionState>('idle');
   const [message, setMessage] = useState('');
+  const shownAt = useRef(0);
+
+  useEffect(() => {
+    shownAt.current = Date.now();
+  }, []);
 
   async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -67,6 +76,7 @@ export function NewsletterSignup({
           website,
           source_key: sourceKey,
           signup_path: signupPath,
+          elapsed_ms: Date.now() - shownAt.current,
         }),
       });
       const result = (await response
