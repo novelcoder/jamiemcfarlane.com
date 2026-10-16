@@ -1,15 +1,7 @@
-import {
-  InvalidEmailAddressError,
-  MailerLiteConfigurationError,
-  MailerLiteRequestError,
-  subscribeToPrivateerTalesMain,
-} from '@/lib/mailerlite';
-import {
-  parseNewsletterSignupContext,
-  recordNewsletterSignup,
-} from '@/lib/newsletter-attribution';
+import { parseNewsletterSignupContext } from '@/lib/newsletter-attribution';
 
 const MAX_REQUEST_BYTES = 2_048;
+const NEWSLETTER_FUNCTION_SITE = 'jamiemcfarlane';
 
 function jsonResponse(
   body: Record<string, unknown>,
@@ -57,43 +49,58 @@ export async function POST(request: Request) {
   const signupContext = parseNewsletterSignupContext(fields);
 
   // A filled hidden field is treated as a bot submission. Return the normal
-  // response without contacting MailerLite so the endpoint reveals nothing.
+  // response without contacting the function so the endpoint reveals nothing.
   if (typeof fields.website === 'string' && fields.website.trim()) {
     return jsonResponse({ ok: true }, 200);
   }
 
-  try {
-    await subscribeToPrivateerTalesMain(fields.email);
-    try {
-      await recordNewsletterSignup(signupContext);
-    } catch {
-      console.error('Newsletter signup attribution recording failed.');
-    }
-    return jsonResponse({ ok: true }, 200);
-  } catch (error) {
-    if (error instanceof InvalidEmailAddressError) {
-      return jsonResponse({ ok: false, code: 'invalid_email' }, 400);
-    }
-
-    if (error instanceof MailerLiteConfigurationError) {
-      console.error('Privateer Tales MailerLite configuration is invalid.');
-      return jsonResponse({ ok: false, code: 'subscription_unavailable' }, 503);
-    }
-
-    if (error instanceof MailerLiteRequestError) {
-      console.error(`MailerLite subscription request failed: ${error.code}.`);
-      const retryHeaders = error.retryAfter
-        ? { 'Retry-After': error.retryAfter }
-        : undefined;
-
-      return jsonResponse(
-        { ok: false, code: error.code },
-        error.status,
-        retryHeaders,
-      );
-    }
-
-    console.error('Unexpected MailerLite subscription failure.');
-    return jsonResponse({ ok: false, code: 'subscription_unavailable' }, 500);
+  const functionUrl = process.env.NEWSLETTER_SIGNUP_FUNCTION_URL?.trim();
+  if (!functionUrl) {
+    console.error('Newsletter signup function URL is not configured.');
+    return jsonResponse({ ok: false, code: 'subscription_unavailable' }, 503);
   }
+
+  let upstream: Response;
+  try {
+    upstream = await fetch(functionUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        site: NEWSLETTER_FUNCTION_SITE,
+        email: fields.email,
+        ...(signupContext.sourceKey
+          ? { source_key: signupContext.sourceKey }
+          : {}),
+        signup_path: signupContext.signupPath,
+        website: fields.website,
+        elapsed_ms: fields.elapsed_ms,
+      }),
+      cache: 'no-store',
+      signal: AbortSignal.timeout(10_000),
+    });
+  } catch {
+    console.error('Newsletter signup function could not be reached.');
+    return jsonResponse({ ok: false, code: 'provider_unavailable' }, 502);
+  }
+
+  const result = (await upstream.json().catch(() => null)) as {
+    success?: boolean;
+    code?: unknown;
+  } | null;
+
+  if (upstream.ok && result?.success === true) {
+    return jsonResponse({ ok: true }, 200);
+  }
+
+  const code = typeof result?.code === 'string' ? result.code : null;
+  console.error(
+    `Newsletter signup function failed: ${upstream.status} ${code ?? 'unknown'}.`,
+  );
+  const retryAfter = upstream.headers.get('Retry-After');
+
+  return jsonResponse(
+    { ok: false, code: code ?? 'subscription_unavailable' },
+    upstream.ok ? 502 : upstream.status,
+    retryAfter ? { 'Retry-After': retryAfter } : undefined,
+  );
 }
