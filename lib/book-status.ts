@@ -2,12 +2,10 @@
 //
 // - published:   released, has a book page
 // - preorder:    retailer preorder is live, has a book page
-// - coming_soon: announced without a buy link, listed on series pages only
+// - coming_soon: announced without a buy link, has a book page without a buy button
 // - draft:       never shown
 
-export const PUBLIC_BOOK_STATUSES = ['published', 'preorder'] as const;
-
-export const SERIES_LISTED_BOOK_STATUSES = [
+export const PUBLIC_BOOK_STATUSES = [
   'published',
   'preorder',
   'coming_soon',

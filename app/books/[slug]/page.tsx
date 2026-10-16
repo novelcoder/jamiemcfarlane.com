@@ -18,6 +18,7 @@ import {
   defaultStoreLabel,
   isPreorder,
   releaseDateLabel,
+  upcomingNoticeLabel,
 } from '@/lib/book-status';
 import { getBookPageData } from '@/lib/catalog';
 import { seriesLandingPath, seriesReadingOrderPath } from '@/lib/series-routes';
@@ -203,7 +204,11 @@ export default async function BookPage({
           {book.tagline ? (
             <p className={styles.tagline}>{book.tagline}</p>
           ) : null}
-          {book.release_date ? (
+          {book.status === 'coming_soon' ? (
+            <p className={styles.releaseDate}>
+              {upcomingNoticeLabel(book.status, formatDate(book.release_date))}
+            </p>
+          ) : book.release_date ? (
             <p className={styles.releaseDate}>
               {releaseDateLabel(book.status, formatDate(book.release_date))}
             </p>

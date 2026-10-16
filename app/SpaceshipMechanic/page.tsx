@@ -18,7 +18,7 @@ import {
 } from '@/lib/attribution-routing';
 import {
   isUpcoming,
-  SERIES_LISTED_BOOK_STATUSES,
+  PUBLIC_BOOK_STATUSES,
   upcomingNoticeLabel,
 } from '@/lib/book-status';
 import { getSeriesLandingData, type BookRecord } from '@/lib/catalog';
@@ -74,7 +74,7 @@ export default async function SpaceshipMechanicPage({
   searchParams,
 }: SpaceshipMechanicPageProps) {
   const { series, books } = await getSeriesLandingData('spaceship-mechanic', [
-    ...SERIES_LISTED_BOOK_STATUSES,
+    ...PUBLIC_BOOK_STATUSES,
   ]);
   const query = await searchParams;
   const attribution = await getSpaceshipAttributionContext(
