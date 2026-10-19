@@ -21,13 +21,18 @@ void test('formatPostDate uses a stable UTC calendar date', () => {
   );
 });
 
-void test('published post queries require approval and an arrived timestamp', () => {
+void test('published post queries require this site, approval and an arrived timestamp', () => {
   const now = new Date('2026-10-03T17:00:00.000Z');
   const queries = publishedPostVisibilityQueries(now).map((query) =>
     JSON.parse(query),
   );
 
   assert.deepEqual(queries, [
+    {
+      method: 'equal',
+      attribute: 'sites',
+      values: ['6ac921fe001bfe4ecb28'],
+    },
     {
       method: 'equal',
       attribute: 'status',
