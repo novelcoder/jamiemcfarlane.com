@@ -6,6 +6,7 @@ import {
   cachedReadInit,
   CATALOG_REVALIDATE_SECONDS,
   equalQuery,
+  JAMIE_MCFARLANE_SITE_ID,
   lessThanEqualQuery,
   limitQuery,
 } from './catalog.ts';
@@ -91,8 +92,12 @@ function postTablePath(suffix = '') {
   return `/tablesdb/${APPWRITE_DATABASE_ID}/tables/${POSTS_TABLE_ID}${suffix}`;
 }
 
+// The `posts` table is shared with other author sites, so a post is only
+// visible here when its `sites` relation points at this site. A row with no
+// `sites` value is hidden everywhere.
 export function publishedPostVisibilityQueries(now = new Date()) {
   return [
+    equalQuery('sites', [JAMIE_MCFARLANE_SITE_ID]),
     equalQuery('status', ['published']),
     lessThanEqualQuery('published_at', now.toISOString()),
   ];

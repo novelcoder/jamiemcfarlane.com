@@ -1,7 +1,10 @@
 # Blog publishing
 
-Blog visibility is controlled by two fields on the Appwrite `posts` row:
+The `posts` table is shared with other author sites. Blog visibility is controlled
+by three fields on the Appwrite `posts` row:
 
+- `sites` must be set to the jamiemcfarlane.com row (`6ac921fe001bfe4ecb28`). A row
+  with `sites` blank is hidden on every site, so set it when creating a post.
 - `status` must be `published`.
 - `published_at` must be less than or equal to the current server time.
 
