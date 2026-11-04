@@ -21,6 +21,7 @@ import {
   upcomingNoticeLabel,
 } from '@/lib/book-status';
 import { getBookPageData } from '@/lib/catalog';
+import { getCoverImageMeta } from '@/lib/cover-image-meta';
 import { seriesLandingPath, seriesReadingOrderPath } from '@/lib/series-routes';
 
 import styles from './book.module.css';
@@ -74,6 +75,10 @@ export async function generateMetadata({
   const canonicalPath = canonicalBookPath(book.slug);
   const description =
     book.card_description || book.tagline || book.blurb.slice(0, 160);
+  // Width, height and type let Facebook scrape the cover on the first share.
+  const coverMeta = book.cover_url
+    ? await getCoverImageMeta(book.cover_url)
+    : null;
 
   return {
     title: `${book.title} | Jamie McFarlane`,
@@ -91,6 +96,13 @@ export async function generateMetadata({
         {
           url: book.cover_url,
           alt: book.cover_alt,
+          ...(coverMeta
+            ? {
+                width: coverMeta.width,
+                height: coverMeta.height,
+                type: coverMeta.type,
+              }
+            : {}),
         },
       ],
     },
