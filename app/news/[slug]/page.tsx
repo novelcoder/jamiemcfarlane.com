@@ -5,6 +5,7 @@ import { notFound, permanentRedirect } from 'next/navigation';
 
 import { SiteFooter } from '@/components/site-footer';
 import { SiteHeader } from '@/components/site-header';
+import { getBlogImageMeta } from '@/lib/blog-image-meta';
 import { renderMarkdown } from '@/lib/markdown';
 import { blogImagePath, formatPostDate, getPublishedPost } from '@/lib/posts';
 
@@ -21,6 +22,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const image = post.hero_image_id
     ? blogImagePath(post.hero_image_id)
     : undefined;
+  // Facebook only scrapes an og:image synchronously when it is told the size
+  // and type up front; without them the first share often has no image.
+  const imageMeta = post.hero_image_id
+    ? await getBlogImageMeta(post.hero_image_id)
+    : null;
 
   return {
     title: post.seo_title || `${post.title} | Jamie McFarlane`,
@@ -35,7 +41,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       modifiedTime: post.updated_at || post.published_at,
       authors: [post.author_name],
       tags: [post.category, ...post.tags].filter(Boolean),
-      ...(image ? { images: [{ url: image, alt: post.hero_image_alt }] } : {}),
+      ...(image
+        ? {
+            images: [
+              {
+                url: image,
+                alt: post.hero_image_alt,
+                ...(imageMeta
+                  ? {
+                      width: imageMeta.width,
+                      height: imageMeta.height,
+                      type: imageMeta.type,
+                    }
+                  : {}),
+              },
+            ],
+          }
+        : {}),
     },
   };
 }
